@@ -1,0 +1,39 @@
+<%- include('./includes/head.ejs') %>
+
+</head>
+<%- include('./includes/nav.ejs') %>
+
+
+<main>
+<center>
+<h1 style="font-size: 32px">The AI output became this amazing design!</h1>
+
+<img src="<%=design%>">
+
+
+<form action="/choose-designs" method="post" id="tableForm">
+    
+    <h2 style="font-weight: bold; font-size: 24px">What do you want to do?</h2>
+
+    <button style="width:180px; height:50px; font-size:18px" name="design" value="<%=design%>" type="submit">Claim this design</button>
+    <p>or</p>
+    <button style="width:180px; height:50px; font-size:18px" onClick="tryAgain()" type="button">Try again</button>
+</form>
+
+<script>
+  function tryAgain(){
+    window.location.href = "/design";
+  }
+</script>
+</center>
+
+</main>
+
+
+<%- include('./includes/footer.ejs') %>
+
+
+
+
+
+

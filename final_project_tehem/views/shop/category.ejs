@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <!-- basic -->
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- mobile metas -->
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+      <!-- site metas -->
+      <title>Designer's Cut</title>
+      <meta name="keywords" content="">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <!-- bootstrap css -->
+      <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+      <!-- style css -->
+      <link rel="stylesheet" type="text/css" href="/css/style.css">
+      <!-- Responsive-->
+      <link rel="stylesheet" href="/css/responsive.css">
+      <!-- fevicon -->
+      <link rel="icon" href="images/fevicon.png" type="image/gif" />
+      <!-- Scrollbar Custom CSS -->
+      <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+      <!-- Tweaks for older IEs-->
+      <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+      <!-- fonts -->
+      <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+      <!-- font awesome -->
+      <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+      <!--  -->
+      <!-- owl stylesheets -->
+      <link href="https://fonts.googleapis.com/css?family=Great+Vibes|Poppins:400,700&display=swap&subset=latin-ext" rel="stylesheet">
+      <link rel="stylesheet" href="/css/owl.carousel.min.css">
+      <link rel="stylesoeet" href="/css/owl.theme.default.min.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen"></link>
+</head>
+<%- include('../includes/nav.ejs') %>
+
+
+<main style="padding-left: 10px">
+    <div class="form-group mb-3" style="right: 50px; width: 50%;">
+        <label for="category">Category</label>
+        <select name="category" class="custom-select tm-select-accounts" id="category" onchange="location = this.value;">
+          <option selected="">Select an Option</option>
+          <option value="/category">All Categories</option>
+          <option value="/category/sport">Sports</option>
+          <option value="/category/elegant">Elegant</option>
+          <option value="/category/vans">Vans</option>
+        </select>
+      </div>
+     
+    <% if (products.length > 0) { %>
+        <div  style="width:250px; float:left; display: grid; grid-template-columns: repeat(7, 285px); grid-auto-rows: minmax(150px, auto); grid-gap: 10px;">
+            <% for (let product of products) { %>
+                <a href="/item/<%=product._id%>"> 
+                <article class="card product-item" style="max-height: 500px;">
+                    <header class="card__header">
+                        <h1 class="product__title" style="margin-left: 2%; font-size: 25px">
+                            <%= product.title %>
+                        </h1>
+                    </header>
+                    <div class="card__image">
+                        <img src="<%= product.imageUrl %>" alt="<%= product.title %>">
+                    </div>
+                    <div class="card__content">
+                        <h2 class="product__price" style="margin-left: 2%;">$<%= product.price %></h2>
+                        <p class="product__description" style="overflow: hidden; max-height: 25px; text-overflow: ellipsis; white-space: nowrap;">
+                            <%= product.description %>
+                        </p>
+                    </div>
+                
+                <form method="post" action="/add-to-cart"> 
+                <input type="hidden" name="productId" value="<%= product._id %>">
+                <input style="margin-bottom: 10px; margin-left: 25%;" type="submit" class="btn btn-primary" value="Add to Cart">
+            </form>
+                   
+                </article> 
+            </a>
+                <% } %>
+        
+
+        <% } else { %>
+            <h1>No Products Found!</h1>
+            <% } %>
+        </div>
+
+</main>
+
+
+<%- include('../includes/footer.ejs') %>

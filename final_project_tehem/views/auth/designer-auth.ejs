@@ -1,0 +1,89 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="css/auth.css">
+</head>
+<%- include('../includes/nav.ejs') %>
+
+<main>
+
+
+<h1>Are you an artist?</h1>
+<h2>Want to experience how it feels to design products using AI?</h2>
+<h3>Then you are in the right place!</h3>
+
+
+<div class="cotn_principal">
+    <div class="cont_centrar">
+    
+      <div class="cont_login">
+    <div class="cont_info_log_sign_up">
+          <div class="col_md_login">
+    <div class="cont_ba_opcitiy">
+            
+            <h2>LOGIN</h2>  
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> 
+      <button class="btn_login" onclick="cambiar_login()">LOGIN</button>
+      </div>
+      </div>
+    <div class="col_md_sign_up">
+    <div class="cont_ba_opcitiy">
+      <h2>SIGN UP</h2>
+    
+      
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    
+      <button class="btn_sign_up" onclick="cambiar_sign_up()">SIGN UP</button>
+    </div>
+      </div>
+           </div>
+    
+        
+        <div class="cont_back_info">
+           <div class="cont_img_back_grey">
+           <img src="https://images.unsplash.com/42/U7Fc1sy5SCUDIu4tlJY3_NY_by_PhilippHenzler_philmotion.de.jpg?ixlib=rb-0.3.5&q=50&fm=jpg&crop=entropy&s=7686972873678f32efaf2cd79671673d" alt="" />
+           </div>
+           
+        </div>
+    <div class="cont_forms" >
+        <div class="cont_img_back_">
+           <img src="https://images.unsplash.com/42/U7Fc1sy5SCUDIu4tlJY3_NY_by_PhilippHenzler_philmotion.de.jpg?ixlib=rb-0.3.5&q=50&fm=jpg&crop=entropy&s=7686972873678f32efaf2cd79671673d" alt="" />
+           </div>
+
+           <form action='/designer-login', method='POST'> 
+     <div class="cont_form_login">
+    <a href="#" onclick="ocultar_login_sign_up()" ><i class="material-icons">&#xE5C4;</i></a>
+       <h2>LOGIN</h2>
+     <input type="text" placeholder="Username" name="username"/>
+    <input type="password" placeholder="Password" name="password" />
+    <button class="btn_login" onclick="cambiar_login()">LOGIN</button>
+      </div>
+    </form>
+      
+
+      <form action="/designer-register" method="POST" enctype="multipart/form-data"> 
+       <div class="cont_form_sign_up">
+         
+    <a href="#" onclick="ocultar_login_sign_up()"><i class="material-icons">&#xE5C4;</i></a>
+         <h2>SIGN UP</h2>
+    <input type="text" name="username" autocomplete="off" value="" placeholder="Username" />
+    <input type="password" name="password" autocomplete="off" value="" placeholder="Password" />
+    <br>
+    <br>
+    <textarea name="description" autocomplete="off" value="" placeholder="Describe yourself and your work"></textarea>
+    <label for="image">Profile Picture</label>
+    <input type="file" id="image" name="image" />
+    
+    <button class="btn_sign_up" type="submit" onclick="cambiar_sign_up()">SIGN UP</button>
+    
+      </div>
+      </form>
+    
+        </div>
+        
+      </div>
+     </div>
+    </div>
+<script src='js/auth.js' type='text/javascript'></script>
+</main>
+
+
+<%- include('../includes/footer.ejs') %>

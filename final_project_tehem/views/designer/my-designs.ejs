@@ -1,0 +1,25 @@
+<%- include('../includes/designer/designer-head.ejs') %>
+</head>
+<%- include('../includes/designer/nav-menu.ejs') %>
+<main>
+<% if (designs.length > 0) { %>
+
+<h1 style="text-align: center;">My Designs!!!!!!!!!!!!!!!!!!!!</h1>
+<div style="position:relative;width: 1000px; height: 500px; padding-left:500px;overflow-wrap: anywhere; overflow-y: scroll;"> 
+<% designs.forEach(design => { %>
+
+<a style="width: 200px; height: 200px; float: left; margin-right: 20px; margin-bottom: 20px;" href="add-product/<%=design.imageName%>">
+    <img src="<%= design.imagePath%>" alt="Design!!!">
+    
+</a>    
+<% }) %>
+
+<% } else { %>
+    <h1 style="text-align: center;">No Designs Yet!</h1>
+<% } %>
+</div>
+
+
+</main>
+
+<%- include('../includes/footer.ejs') %>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Buy cool new product</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+  </head>
+  <body>
+    <h1>Are you sure you want to checkout?</h1>
+     
+    <div>
+      <button class="orderbtn btn btn-primary" style="width: 150px; font-size: 21px; font-weight: bold;" id="order-button" onClick="RedirectToCheckout()">Checkout</button>
+      <input type="hidden" value="<%= sessionURL %>" id="URL">
+      <script src="https://js.stripe.com/v3/"></script>
+      <script>
+          var stripe = Stripe('pk_test_51KP3UzLEudQkZUXX35F1kNtSpAvmcyg1a8wY8VILCjeGivE87yuACu3LfXkpmm7bChdAQcrCL3JjbiqYVEyYIwGv00gf9SKC5W');
+          function RedirectToCheckout() {
+              var url = document.getElementById('URL').value;
+              location.replace(url);
+          }
+      </script>
+      <button class="orderbtn btn btn-primary" style="background-color: red; width: 150px; font-size: 21px;font-weight: bold;" id="order-button" onClick="history.back()">Go back</button>
+  </div>
+    <section style="float:left; display: grid; grid-template-columns: repeat(7, 285px); grid-auto-rows: minmax(150px, auto); grid-gap: 10px;">
+      <% cart.forEach(product=>{ %>
+
+    
+      <div class="product">
+        <img src="<%=product.imageUrl%>" alt="The cover of Stubborn Attachments" />
+        <div class="description">
+          <h3><%=product.title%></h3>
+          <p><%=product.description%></p>
+          <h5>$<%=product.price%></h5>
+        </div>
+      </div>
+      <% }) %>
+     
+    </section>
+  </body>
+</html>

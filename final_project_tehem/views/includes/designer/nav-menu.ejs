@@ -1,0 +1,22 @@
+<div id="menu">
+    <div class="pure-menu">
+        <a class="pure-menu-heading" href="/"><img src="images/logo-mini.png" style="width: 250px; height: 200px;" alt="Designer's Cut"></a>
+
+        <ul class="pure-menu-list">
+                <li class="pure-menu-item <%= path === '/about' ? 'menu-item-divided pure-menu-selected' : '' %>"><a href="/designer-dashboard" class="pure-menu-link">About</a></li>
+            <li class="pure-menu-item <%= path === '/my-designs' ? 'menu-item-divided pure-menu-selected' : '' %>"><a href="/my-designs" class="pure-menu-link">My Designs</a></li>
+
+            <li class="pure-menu-item <%= path === '/create-design' ? 'menu-item-divided pure-menu-selected' : '' %>">
+                <a href="/design" class="pure-menu-link">Create Design</a>
+            </li>
+
+            <li class="pure-menu-item <%= path === '/profile' ? 'menu-item-divided pure-menu-selected' : '' %>"><a href="/profile/<%=username%>" class="pure-menu-link">My Profile</a></li>
+
+            <li class="pure-menu-item <%= path === '/my-wallet' ? 'menu-item-divided pure-menu-selected' : '' %>"><a href="#contact" class="pure-menu-link">My Wallet</a></li>
+
+
+            <li class="pure-menu-item"><a class="pure-menu-link" href="/logout">Logout</a></li>
+        </div>
+        </ul>
+    </div>
+</div>
