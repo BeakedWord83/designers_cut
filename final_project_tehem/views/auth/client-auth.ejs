@@ -5,6 +5,11 @@
 <body>
 <%- include('../includes/nav.ejs') %>
     <main>
+      <% if (errorMessage) { %>
+      <div class="user-message user-message--error" onClick="this.style.visibility='hidden';"><%= errorMessage %></div>
+      <% } %>
+     
+
       <div class="cotn_principal">
         <div class="cont_centrar">
         

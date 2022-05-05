@@ -5,6 +5,9 @@
          <%- include('../includes/nav.ejs') %>
          <!-- header top section start -->
          <!-- logo section start -->
+         <% if (successMessage) {  %>
+            <div class="user-message" onClick="this.style.visibility='hidden';"><%= successMessage %></div>
+         <% } %>
          <div  class="banner_bg_main">
          <div class="logo_section">
             <div class="container">
@@ -34,7 +37,10 @@
                      <a href="/logout"> Logout</a>
                     
                      <% }  %>
-                     
+                     <% if (isDesignerLoggedIn) { %>
+                     <a href="/designer-dashboard">Designer Dashboard</a>
+                     <a href="/logout">Logout Designer</a>
+                     <% } %>
                   </div>
                   <span class="toggle_icon" onclick="openNav()"><img src="images/toggle-icon.png"></span>
                   
@@ -60,7 +66,7 @@
                               <span class="padding_10">Logout</span>
                               </a>
                            </a></li>
-                           <li><a href="#">
+                           <li><a href="/cart">
                               <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                               <span class="padding_10">Cart</span></a>
                            </li>
@@ -69,9 +75,16 @@
                             else { %>
                            <li><a href="/login">
                               <i class="fa fa-user" aria-hidden="true"></i>
-                              <span class="padding_10">Login</span></a>
+                              <span class="padding_10">Client Login</span></a>
                            </li>
                            <% } %>
+                           <% if (!isDesignerLoggedIn) { %>
+                              <li><a href="/designer-login">
+                                 <i class="fa fa-regular fa-palette"></i>
+                                 <span class="padding_10">Designer Login</span></a>
+                              </li>
+                           <% } %>
+
                         </ul>
                      </div>
                   </div>

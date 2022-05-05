@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/edit-product.css" />
+    <link rel="stylesheet" href="/css/go-back.css">
+    <link rel="stylesheet" href="/css/fontawesome.min.css">
+    <title>Document</title>
+    <style>
+        label {
+            font-weight: bold;
+        }
+    </style>
+  </head>
+  <body>
+      <%- include("../includes/admin/go-back.ejs") %>
+    <main>
+      <form action="/admin/manage-admins/edit-admin" method="post" class="form-container">
+        <h1 class="headline">Edit Admin</h1>
+        <input type="hidden" name="adminId" value="<%=admin._id%>" />
+        <div class="input-wrapper">
+          <label for="title">Username</label>
+          <input
+            id="title"
+            type="text"
+            name="adminUsername"
+            value="<%=admin.username%>"
+            required
+          />
+        </div>
+        <div class="input-wrapper">
+            <label for="title">Password</label>
+            <input
+              id="title"
+              type="text"
+              name="adminPassword"
+              value="<%=admin.password%>"
+              required
+            />
+          </div>
+        <div class="input-wrapper">
+          <label for="firstName">First Name</label>
+          <input id="firstName" name="adminFirstName" value="<%=admin.firstName%>" required />
+        </div>
+
+      
+        <div class="input-wrapper">
+          <label for="lastName">Last Name</label>
+          <input
+            id="lastName"
+            type="text"
+            name="adminLastName"
+            value="<%=admin.lastName%>"
+            required
+          />
+        </div>
+        <div class="input-wrapper">
+            <label for="address">Address</label>
+            <input
+              id="address"
+              type="text"
+              name="adminAddress"
+              value="<%=admin.address%>"
+              required
+            />
+          </div>
+        <button type="submit">Save</button>
+      </form>
+    </main>
+  </body>
+</html>

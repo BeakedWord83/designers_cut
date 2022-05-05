@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/edit-product.css" />
+    <link rel="stylesheet" href="/css/go-back.css">
+    <link rel="stylesheet" href="/css/fontawesome.min.css">
+    <title>Document</title>
+  </head>
+  <body>
+      <%- include("../includes/admin/go-back.ejs") %>
+    <main>
+      <form action="/admin/manage-products/edit-product" method="post" class="form-container">
+          <div class="product-image-container">
+                <img src="<%= product.imageUrl %>" alt="immutable">
+                <span>Image is Not Changeable</span>
+          </div>
+        <h1 class="headline">Edit Product</h1>
+        <input type="hidden" name="productId" value="<%=product._id%>" />
+        <div class="input-wrapper">
+          <label for="title">Title</label>
+          <input
+            id="title"
+            type="text"
+            name="productTitle"
+            value="<%=product.title%>"
+          />
+        </div>
+        <div class="input-wrapper">
+          <label for="description">Description</label>
+          <textarea id="description" name="productDescription"><%=product.description%></textarea>
+        </div>
+
+        <div class="input-wrapper">
+          <label for="category">Category</label>
+          <select
+            id="category"
+            name="category"
+            class="custom-select tm-select-accounts"
+          >
+            <option selected="">Select an Option</option>
+            <option value="Sport">Sport</option>
+            <option value="Elegant">Elegant</option>
+            <option value="Vans">Vans</option>
+          </select>
+        </div>
+        <div class="input-wrapper">
+          <label for="price">Price</label>
+          <input
+            id="price"
+            type="number"
+            name="productPrice"
+            value="<%=product.price%>"
+          />
+        </div>
+        <button type="submit">Save</button>
+      </form>
+    </main>
+  </body>
+</html>

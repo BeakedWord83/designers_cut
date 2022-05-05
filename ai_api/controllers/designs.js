@@ -10,21 +10,18 @@ exports.getDesignsInventory = (req, res, next) => {
   Inventory.fetchInventory(userId).then((inventory) => {
     console.log(inventory);
     if (inventory)
-    res.status(200).json({
-      message: "Fetched inventory successfully!",
-      inventory: inventory,
-    });
+      res.status(200).json({
+        message: "Fetched inventory successfully!",
+        inventory: inventory,
+      });
     else
-    res.status(400).json({
-      message: "no inventory!",
-    });
+      res.status(400).json({
+        message: "no inventory!",
+      });
   });
 };
 
 exports.postUseAI = (req, res, next) => {
-  // AI does its magic here, right now it just returns an array of three test images
-  console.log("We are here!!!!!!!!!!!");
-  console.log(req.body);
   let binary = Buffer.from(req.body.image.data);
   let filePath = "images/temp/temp-" + Math.random() * 0.1 + ".png";
   fs.writeFileSync(filePath, binary, (err) => {
@@ -86,7 +83,7 @@ exports.postInsertIntoInventory = (req, res, next) => {
   const userId = req.body.designer_id;
   const imagePath = req.body.imagePath.replace("public\\", "");
   let imageName = imagePath.replace("images\\stored\\", "");
-  imageName = imageName.replace('.png', '');
+  imageName = imageName.replace(".png", "");
   let design = new Design(imagePath, imageName);
 
   Inventory.fetchInventory(userId).then((inventory) => {
@@ -120,4 +117,27 @@ exports.getSpecificDesign = (req, res) => {
         message: "Failed to fetch specific design!",
       });
   });
+};
+
+exports.removeFromInventory = (req, res) => {
+  const designer = req.body.designerId;
+  const designName = req.body.designName;
+
+  Inventory.fetchInventory(designer)
+    .then((inventory) => {
+      const newInventory = inventory.designs.filter(
+        (element) => element.imageName != designName
+      );
+      inventory.designs = newInventory;
+      Inventory.updateInventory(inventory, designer);
+      res.status(200).json({
+        message: "Removed from sale successfully!",
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        message: "Failed to remove from sale!",
+      });
+    });
 };

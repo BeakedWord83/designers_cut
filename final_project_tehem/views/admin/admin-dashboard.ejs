@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/fontawesome.min.css" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script
+      src="https://kit.fontawesome.com/63f5349d5f.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <link rel="stylesheet" href="/css/super-admin-dashboard.css" />
+    <style>
+      #light-mode {
+        width: 6rem;
+        height: 4rem;
+        font-size: 1.5rem;
+        font-weight: bold;
+        position: absolute;
+        top: 5%;
+        right: 5%;
+        cursor: pointer;
+        z-index: 100;
+      }
+      .light {
+        background-color: rgb(246, 246, 246);
+        color: black;
+      }
+      .dark {
+        background-color: rgb(36, 33, 33);
+        color: white;
+      }
+    </style>
+  </head>
+  <body class="light">
+    <div id="Button" class="fas fa-fire"></div>
+    <button class="light" id="light-mode" onclick="toggleLightMode()">
+      Light Mode
+    </button>
+
+    <div class="Nav">
+      <a href="/admin/super-admin"
+        ><span class="fas fa-home"><br />Super Admin</span></a
+      >
+      <a href="/admin/manage-products"
+        ><span class="fas fa-user"><br />Manage Products</span></a
+      >
+      <a href="/admin/manage-clients"
+        ><span class="fas fa-upload"><br />Manage Clients</span></a
+      >
+      <a href="/admin/manage-designers"
+        ><span class="fas fa-wrench"><br />Manage Designers</span></a
+      >
+    </div>
+
+    <canvas></canvas>
+
+    <script type="text/javascript" src="/js/super-admin-dashboard.js"></script>
+    <script>
+      function toggleLightMode() {
+        console.log("clicked");
+        const lightButton = document.querySelector("#light-mode");
+        const body = document.querySelector("body");
+        if (lightButton.classList.contains("light")) {
+          lightButton.classList.remove("light");
+          lightButton.classList.add("dark");
+          body.classList.remove("light");
+          body.classList.add("dark");
+        } else {
+          lightButton.classList.remove("dark");
+          lightButton.classList.add("light");
+          body.classList.remove("dark");
+          body.classList.add("light");
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -14,8 +14,9 @@ router.get('/', shopController.getIndexPage);
 router.get(['/category/:type', '/category'], shopController.getCategoryPage);
 
 router.get('/cart', isAuth, shopController.getCartPage);
-router.post('/add-to-cart', shopController.postAddToCart);
-router.post('/remove-from-cart', shopController.postRemoveFromCart);
+router.post('/add-to-cart', isAuth, shopController.postAddToCart);
+router.post('/remove-from-cart', isAuth, shopController.postRemoveFromCart);
+router.post('/remove-all-from-cart', isAuth, shopController.postRemoveAllFromCart);
 
 // Sub-Categories for Products
 // router.get('/manandwoman')
@@ -23,10 +24,11 @@ router.post('/remove-from-cart', shopController.postRemoveFromCart);
 // router.get('/accessories')
 
 router.get('/checkout', isAuth, shopController.getCheckoutPage);
-router.post('/checkout', shopController.postCheckout);
+router.post('/checkout', isAuth, shopController.postCheckout);
 router.get('/success', isAuth, shopController.getSuccessPage);
 router.get('/cancel', isAuth, shopController.getCancelPage);
 
+router.get('/item/:itemId', shopController.getItemPage);
 
 
 module.exports = router;

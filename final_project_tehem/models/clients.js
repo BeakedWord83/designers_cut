@@ -31,14 +31,19 @@ class Client {
     const updatedCartItems = this.cart.filter((product) => {
       return product._id.toString() !== productId.toString();
     });
-
-    
     return db()
       .collection("Clients")
       .updateOne(
         { _id: mongodb.ObjectId(this._id) },
         { $set: { cart: updatedCartItems } }
       );
+  }
+
+
+  deleteAllFromCart()
+  {
+    this.cart = [];
+    return this.saveClient();
   }
 
   static findById(id) {

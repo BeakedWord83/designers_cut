@@ -1,0 +1,15 @@
+<div class="back-text">
+  <a href="" id="back" class="tm-btn-back">
+    <i class="fa-solid fa-arrow-left"></i>
+    <span>Back to Dashboard</span>
+  </a>
+</div>
+<script>
+  const anchor = document.querySelector("#back");
+  if ("<%=isSuperAdminLoggedIn%>") {
+    var href = "/admin/super-admin";
+  } else {
+    var href = "/admin/admin";
+  }
+  anchor.setAttribute("href", href);
+</script>

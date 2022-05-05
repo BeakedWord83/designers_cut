@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+
+    <title>Manage Admins</title>
+    <style>
+      .data-table {
+        margin: auto;
+        border: 3px solid black;
+        border-collapse: collapse;
+        height: 25%;
+        width: 50%;
+      }
+      .data-table tr,
+      th {
+        border: 1px solid black;
+      }
+      .data-table tr:not(:first-child) {
+        color: rgb(15, 104, 149);
+        font-size: 2rem;
+        position: relative;
+      }
+
+      .data-table__headers {
+        font-weight: bold;
+        font-size: 2.5rem;
+      }
+
+      .action-buttons button {
+        position: relative;
+        padding: 0.4rem;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 1.1rem;
+      }
+      button[value="delete"] {
+        background: red;
+        color: white;
+      }
+      button[value="edit"] {
+        background: yellow;
+        color: black;
+      }
+
+      .header {
+        text-align: center;
+        font-size: 4rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main style="margin-bottom: 2rem;"> 
+    <h1 class="header">Admins Management</h1>
+
+    <form style="padding: 12rem; padding-top: 1rem; text-align: center" action="/admin/manage-admins/add-admin" method="post">
+      <h1 style="text-align: center">Add new admin</h1>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Email address</label>
+        <input
+          type="username"
+          type="text"
+          class="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+          name="username"
+          required
+        />
+       
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="exampleInputPassword1"
+          required
+          name="password"
+        />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="exampleCheck1">First Name</label>
+        <input type="text" class="form-control" id="exampleCheck1" name="firstName" required />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="exampleCheck2">Last Name</label>
+        <input type="text" class="form-control" id="exampleCheck2" name="lastName" required />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="exampleCheck3">Address</label>
+        <input type="text" class="form-control" id="exampleCheck3" name="address" required />
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <h1 style="text-align: center">Admins List</h1>
+    <% if (admins.length > 0) { %>
+    <table class="data-table">
+      <tr class="data-table__headers">
+        <th>Admin Username</th>
+        <th>Admin Full Name</th>
+        <th>Admin Address</th>
+        <th>Action</th>
+      </tr>
+
+      <% admins.forEach(admin => { %>
+
+      <tr>
+        <th><%=admin.username%></th>
+        <th><%=admin.firstName + " " + admin.lastName%></th>
+        <th><%=admin.address%></th>
+        <th class="action-buttons">
+          <form action="/admin/manage-admins" method="post">
+            <input type="hidden" name="adminId" value="<%=admin._id%>" />
+            <button
+              type="submit"
+              name="action"
+              value="delete"
+            >
+              Delete
+            </button>
+            <button type="submit" name="action" value="edit">
+              Edit
+            </button>
+          </form>
+        </th>
+      </tr>
+
+      <% }) %>
+    </table>
+
+    <% } else {%>
+    <h3 style="text-align: center">No admins found</h3>
+    <% } %>
+  </main>
+  </body>
+</html>

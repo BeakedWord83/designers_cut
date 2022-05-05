@@ -57,7 +57,7 @@
                         <div class="form-group mb-3 col-xs-12 col-sm-6">
                             <label for="expire_date">Price
                             </label>
-                            <input id="expire_date" name="price" type="number" class="form-control validate hasDatepicker" data-large-mode="true" placeholder="$">
+                            <input id="expire_date" name="price" type="number" class="form-control validate hasDatepicker" data-large-mode="true" step=".01" placeholder="$">
                           </div>
                          
                     </div>
@@ -65,6 +65,7 @@
                       <button type="submit" class="btn btn-primary btn-block text-uppercase">Add Product Now</button>
                     </div>
                     <input type="hidden" name="imageUrl" value="<%=design.designUrl%>">
+                    <input type="hidden" name="imageName" value="<%=design.designName%>">
                 </form></div>
                 <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
                   <div class="tm-product-img-dummy mx-auto">

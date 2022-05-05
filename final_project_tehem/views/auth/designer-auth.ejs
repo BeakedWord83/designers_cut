@@ -10,7 +10,10 @@
 <h2>Want to experience how it feels to design products using AI?</h2>
 <h3>Then you are in the right place!</h3>
 
-
+<% if (errorMessage) { %>
+  <div class="user-message user-message--error" onClick="this.style.visibility='hidden';"><%= errorMessage %></div>
+  <% } %>
+  
 <div class="cotn_principal">
     <div class="cont_centrar">
     

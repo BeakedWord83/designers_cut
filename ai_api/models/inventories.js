@@ -14,20 +14,22 @@ class Inventory {
     return db.collection("inventories").insertOne(this);
   }
 
+  static updateInventory(inventory, userId) {
+    const db = getDbAPI();
+    return db
+      .collection("inventories")
+      .updateOne({ userId: userId }, { $set: { designs: inventory.designs } });
+  }
+
   static addToDesigns(designs, inventory, userId) {
-        console.log(inventory);
-        const updatedDesigns = [...(inventory.designs), designs];
-        const db = getDbAPI();
-        return db
-          .collection("inventories")
-          .updateOne(
-            { userId },
-            { $set: { designs: updatedDesigns } }
-          )
-          .then(result=> console.log("Designs updated!"))
-          .catch(err => console.log(err));
-      
-      
+    console.log(inventory);
+    const updatedDesigns = [...inventory.designs, designs];
+    const db = getDbAPI();
+    return db
+      .collection("inventories")
+      .updateOne({ userId }, { $set: { designs: updatedDesigns } })
+      .then((result) => console.log("Designs updated!"))
+      .catch((err) => console.log(err));
   }
 
   static fetchInventory(id) {

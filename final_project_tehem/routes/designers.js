@@ -1,4 +1,5 @@
 // Import necessary modules
+const route = require('color-convert/route');
 const express = require('express');
 const router = express.Router();
 
@@ -18,11 +19,15 @@ router.post('/design', isDesignerAuth, designerController.postDesignPage);
 router.get('/my-designs', isDesignerAuth, designerController.getMyDesignsPage);
 
 router.get('/profile/:username', designerController.getProfilePage)
-router.get('/add-product/:designName', designerController.getAddProductPage);
+router.get('/add-product/:designName', isDesignerAuth, designerController.getAddProductPage);
 router.post('/add-product', designerController.postAddProductPage);
+
+router.get('/wallet', isDesignerAuth, designerController.getWalletPage);
 // router.post('/add-product', designerController.postAddProductPage);
 
 router.post('/choose-designs', isDesignerAuth, designerController.postChooseDesigns);
 
+router.get('/remove-from-inventory/:designName', isDesignerAuth, designerController.removeFromInventory);
+router.get('/remove-from-sale/:designName', isDesignerAuth, designerController.removeFromSale);
 
 module.exports = router;

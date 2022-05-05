@@ -1,0 +1,83 @@
+[class*="fontawesome-"]:before {
+  font-family: "FontAwesome", sans-serif;
+}
+
+body {
+  background: #ececec;
+  overflow: hidden;
+  user-select: none;
+}
+
+#Button {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 60px;
+  height: 60px;
+  font-size: 18px;
+  text-align: center;
+  line-height: 60px;
+  background: #e74c3c;
+  border-radius: 50%;
+  color: #ececec;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.Nav {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 604px;
+  height: 604px;
+  font-size: 0;
+  transform: scale(0);
+  transition: transform 0.8s;
+  box-shadow: 0px 0px 10px #999;
+  z-index: 1;
+}
+
+a {
+  display: inline-block;
+  width: 300px;
+  height: 300px;
+  font-size: 38px;
+  font-family: "sans-serif";
+  text-decoration: none;
+  line-height: 250px;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgb(51, 49, 49);
+  color: rgb(255, 255, 255);
+}
+
+a:nth-of-type(odd) {
+  margin-right: 2px;
+}
+a:nth-child(1) {
+  margin-bottom: 2px;
+  background: #1abc9c;
+}
+a:nth-child(2) {
+  background: #2ecc71;
+}
+a:nth-child(3) {
+  background: #3498db;
+}
+a:nth-child(4) {
+  background: #9b59b6;
+}
+
+.active {
+  transform: scale(1);
+}
+
+a:hover {
+  transform: scale(1.05);
+}
+
+canvas {
+  position: absolute;
+}

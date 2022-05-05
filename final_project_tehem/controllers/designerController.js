@@ -2,18 +2,7 @@ const Designer = require("../models/designers");
 const Product = require("../models/products");
 const request = require("request");
 const fs = require("fs");
-
-exports.getBecomeDesignerPage = (req, res, next) => {
-  res.render("becomeDesigner");
-};
-
-exports.postBecomeDesignerPage = (req, res, next) => {
-  const username = req.body.username;
-  const password = req.body.password;
-  const description = req.body.description;
-  const image = req.body.image;
-  const yearsOfExperience = req.body.yearsOfExperience;
-};
+const path = require("path");
 
 exports.getDesignerDashboardPage = (req, res) => {
   res.render("designer/designer-dashboard", {
@@ -88,11 +77,11 @@ exports.postChooseDesigns = (req, res) => {
   request.post(
     "http://localhost:8080/insertIntoInventory",
     {
-      json: { imagePath, designer_id: req.designer._id},
+      json: { imagePath, designer_id: req.designer._id },
     },
     function (error, response, body) {
       if (!error && response.statusCode == 201) {
-        let path = req.session.path;
+        // let path = req.session.path;
 
         req.session.allPaths = null;
         res.redirect("/my-designs");
@@ -105,7 +94,9 @@ exports.getMyDesignsPage = (req, res) => {
   if (!req.session.designer) {
     return res.redirect("/designer-login");
   }
-
+  const dir = path.join(__dirname, "..", "public", "images", "stored");
+  const files = fs.readdirSync(dir);
+  console.log(files);
   return request.post(
     "http://localhost:8080/designs",
     { json: { userId: req.designer._id } },
@@ -115,9 +106,18 @@ exports.getMyDesignsPage = (req, res) => {
         console.log(body);
 
         body.inventory.designs.forEach((design) => {
+          const exists = files.includes(
+            design.imagePath
+              .replace("images\\stored\\", "")
+              .replace(".png", "-product.png")
+          );
+          console.log(exists);
           paths.push({
-            imagePath: design.imagePath,
+            imagePath: exists
+              ? design.imagePath.replace(".png", "-product.png")
+              : design.imagePath,
             imageName: design.imageName,
+            exists,
           });
         });
       }
@@ -131,11 +131,8 @@ exports.getMyDesignsPage = (req, res) => {
 };
 
 exports.getAddProductPage = (req, res) => {
-  if (!req.session.designer) {
-    return res.redirect("designer-login");
-  }
-  console.log(req.params);
   const designName = req.params.designName;
+
   request.post(
     "http://localhost:8080/getSpecificDesign",
     { json: { designerId: req.designer._id, designName } },
@@ -145,10 +142,13 @@ exports.getAddProductPage = (req, res) => {
         console.log(body);
         const designName = body.design.imageName.replace(".png", "");
         console.log(designName);
-        const design = {designUrl: "\\"+body.design.imagePath, designName: designName}
+        const design = {
+          designUrl: "\\" + body.design.imagePath,
+          designName: designName,
+        };
         console.log(design);
         return res.render("designer/add-product", {
-          design
+          design,
         });
       }
     }
@@ -161,24 +161,124 @@ exports.postAddProductPage = (req, res) => {
   const description = req.body.description;
   const price = req.body.price;
   const imageUrl = req.body.imageUrl;
-  const category = req.body.category;
-  const designerId = req.designer._id;
-  const product = new Product(title, type.toLowerCase(), price, description, imageUrl, null, designerId);
-  product.saveProduct();
+  const imageName = req.body.imageName;
+  const newImageUrl = req.body.imageUrl.replace(".png", "-product.png");
+  console.log(imageUrl);
 
-  res.redirect('/');
+  const designer = {
+    _id: req.designer._id,
+    username: req.designer.username,
+    profilePicture: req.designer.imageUrl,
+  };
+  const product = new Product(
+    title,
+    type.toLowerCase(),
+    price,
+    description,
+    newImageUrl,
+    imageName,
+    null,
+    designer
+  );
 
-
-
+  const oldPath = path.join(__dirname, "..", "public", imageUrl);
+  const newPath = path.join(__dirname, "..", "public", newImageUrl);
+  console.log("nigger " + oldPath + " hahahaha " + newPath);
+  fs.rename(oldPath, newPath, () => {
+    product.saveProduct();
+    res.redirect("/my-designs");
+  });
 };
 
 exports.getProfilePage = (req, res) => {
-  const designerUsername = req.params.designerUsername;
+  const designerUsername = req.params.username;
+  
+  console.log(designerUsername);
+
   return Designer.fetchByUsername(designerUsername)
     .then((designer) => {
-      return res.render("designer/profile", { designer });
+      let isProfileDesigner = false;
+      if (req.designer)
+      {
+        isProfileDesigner = req.designer._id.toString() == designer._id.toString();
+      }
+     
+  
+      Product.fetchByDesigner(designer._id).then((products) => {
+        
+
+        return res.render("designer/profile", { designer, designs: products, isProfileDesigner });
+      });
     })
+
     .catch((err) => {
       console.log(err);
     });
 };
+
+exports.getWalletPage = (req, res) => {
+  console.log(req.designer);
+  const money = req.designer.wallet;
+
+  res.render("designer/wallet", {
+    money: `$${money.toFixed(2)}`,
+    path: "/wallet",
+    username: req.designer.username,
+  });
+};
+
+
+exports.removeDesignFromInventory = (req, res) =>
+{
+  const designName = req.params.designName;
+  console.log(designName);
+  request.post(
+    "http://localhost:8080/removeDesignFromInventory",
+    { json: { designerId: req.designer._id, designName } },
+    function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        console.log("success!");
+        console.log(body);
+        res.redirect("/my-designs");
+      }
+    }
+  );
+} 
+
+
+exports.removeFromInventory = (req, res) => {
+  const designName = req.params.designName;
+  console.log(designName);
+  request.post(
+    "http://localhost:8080/remove-from-inventory",
+    { json: { designerId: req.designer._id, designName } },
+    function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        console.log("success!");
+        console.log(body);
+        res.redirect("/my-designs");
+      }
+    }
+  );
+}
+
+
+exports.removeFromSale = (req, res) => {
+  console.log("here");
+  const imagePath = path.join(__dirname, "..", "public", "images", "stored\\");
+  const designName = req.params.designName;
+  const productDesignName = designName + "-product.png";
+  console.log(imagePath + productDesignName);
+  if (fs.existsSync(imagePath + productDesignName)) {
+    Product.deleteByImageName(designName);
+    fs.rename(imagePath + productDesignName, imagePath + designName+'.png', ()=>{
+      res.redirect("/my-designs");
+    });
+
+  } 
+  else {
+    console.log("no such file");
+    res.redirect("/my-designs");
+  }
+  
+}

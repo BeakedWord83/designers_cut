@@ -10,6 +10,8 @@ router.post('/useAI', designsController.postUseAI);
 router.post('/insertIntoInventory', designsController.postInsertIntoInventory);
 
 router.post('/getSpecificDesign', designsController.getSpecificDesign);
+
+router.post('/remove-from-inventory', designsController.removeFromInventory);
 module.exports = router;
 
 

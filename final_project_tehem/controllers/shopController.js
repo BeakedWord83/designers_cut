@@ -1,13 +1,18 @@
 // Module Imports
+
 const Client = require("../models/clients");
 const Product = require("../models/products");
+const Designer = require("../models/designers");
 const stripe = require("stripe")(
   "sk_test_51KP3UzLEudQkZUXXnuWsJ7UnYsJvqVD9me6AJjfrnnpOwTpqRkGq0sQxnTy47F0fAB0tjpDbnIQhSTokPQxpJk6o00AtIOO8Vx"
 );
 
 // <-------------------- Main page -------------------->
 exports.getIndexPage = (req, res) => {
-  res.render("shop/index", { user: req.client ? true : false});
+  const message = req.flash("success");
+  res.render("shop/index", {
+    successMessage: message.length > 0 ? message[0] : null,
+  });
 };
 
 // <----------------------- Login page -------------------->
@@ -15,10 +20,16 @@ exports.getIndexPage = (req, res) => {
 // Individual Item page
 exports.getItemPage = (req, res, next) => {
   itemId = req.params.itemId;
+  Product.fetchById(itemId)
+    .then((product) => {
+      if (!product) {
+        res.redirect('/');
+      }
   res.render("shop/item", {
-    itemId,
+    product,
     path: `item/${itemId}`,
   });
+});
 };
 exports.PostItemPage = (req, res) => {
   itemId = req.params.itemId;
@@ -35,6 +46,7 @@ exports.getCategoryPage = (req, res) => {
         type && categories.includes(type.toLowerCase())
           ? products.filter((product) => product.type === type)
           : products;
+      
       console.log("haha!", filtered);
       return res.render("shop/category", { products: filtered });
     })
@@ -64,7 +76,7 @@ exports.postAddToCart = (req, res, next) => {
       console.log(product);
       console.log("testing ", req.client.cart);
       const client = req.client;
-      console.log("WTF "+ client);
+      console.log("WTF " + client);
       client.cart.push(product);
       client.saveClient();
       return res.redirect("/cart");
@@ -85,6 +97,14 @@ exports.postRemoveFromCart = (req, res) => {
     .catch((err) => console.error(err));
 };
 
+exports.postRemoveAllFromCart = (req, res) => {
+  const client = req.client;
+  client.deleteAllFromCart().then((result) => {
+    console.log("yes!");
+    res.redirect("/cart");
+  });
+};
+
 exports.getCheckoutPage = (req, res) => {
   console.log("here");
   res.render("shop/checkout", {
@@ -92,14 +112,22 @@ exports.getCheckoutPage = (req, res) => {
   });
 };
 
-exports.getSuccessPage = (req, res) => {
-  req.client.cart = [];
-  req.client.saveClient()
-  .then(result=>{
-    res.render('shop/success');
-  })
-  .catch(err=>console.error(err));
+exports.getSuccessPage = async (req, res) => {
+  // assign payment for each designer
+  const products = req.client.cart;
+  for (let product of products) {
+    Designer.findAndPay(product.designer._id, parseFloat(product.price)*0.3);
+    
+  }
 
+  // empty the client's cart
+  req.client.cart = [];
+  req.client
+    .saveClient()
+    .then((result) => {
+      res.render("shop/success");
+    })
+    .catch((err) => console.error(err));
 };
 
 exports.getCancelPage = (req, res) => {
@@ -107,8 +135,6 @@ exports.getCancelPage = (req, res) => {
 };
 
 exports.postCheckout = async (req, res) => {
-  // const product = req.body.product;
-
   return stripe.checkout.sessions
     .create({
       line_items: req.client.cart.map((product) => ({

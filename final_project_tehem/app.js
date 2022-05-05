@@ -2,10 +2,12 @@
 const express = require("express");
 const mongoConnect = require("./utils/database").mongoConnect;
 const session = require("express-session");
+const flash = require("connect-flash");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const shopRoutes = require("./routes/shop");
 const designersRoutes = require("./routes/designers");
 const authRoutes = require("./routes/auth");
+const adminRoutes = require("./routes/admin");
 const multer = require("multer");
 const Client = require("./models/clients");
 const Designer = require("./models/designers");
@@ -90,7 +92,8 @@ app.use((req, res, next) => {
         designer.username,
         designer.password,
         designer.description,
-        designer.imageUrl
+        designer.imageUrl,
+        designer.wallet
       );
       else req.designer = null;
       next();
@@ -101,14 +104,19 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   res.locals.isClientLoggedIn = req.session.isClientLoggedIn;
   res.locals.isDesignerLoggedIn = req.session.isDesignerLoggedIn;
+  res.locals.isAdminLoggedIn = req.session.isAdminLoggedIn;
+  res.locals.isSuperAdminLoggedIn = req.session.isSuperAdminLoggedIn;
   next();
 });
+
+
+app.use(flash());
 
 // Configure the routes to use
 app.use(shopRoutes);
 app.use(designersRoutes);
 app.use(authRoutes);
-
+app.use('/admin', adminRoutes);
 // Configure database and start the server on port 3000
 mongoConnect(() => {
   app.listen(3000);
