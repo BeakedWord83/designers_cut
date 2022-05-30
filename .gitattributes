@@ -1,2 +1,0 @@
-*.ai filter=lfs diff=lfs merge=lfs -text
-tomer_api/G_85.ai filter=lfs diff=lfs merge=lfs -text
