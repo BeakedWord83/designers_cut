@@ -1,10 +1,11 @@
 <%- include('../includes/head.ejs', {title: 'Profile'}) %>
 
 
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <link rel="stylesheet" href="/css/profile.css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 
 <style>
@@ -24,6 +25,9 @@
     }
 </style>
 </head>
+<% if (successMessage) { %>
+    <div class="user-message user-message--success" onClick="this.style.visibility='hidden';"><%= successMessage %></div>
+    <% } %>
 
     <main>
         <span id="back-arrow" class="back-arrow">
@@ -31,16 +35,19 @@
         <img onClick="history.back()" src="/images/arrow-left.png">
         </span>
         <div class="container emp-profile">
-            <form method="post">
+            <div >
                 <div class="row">
                     <div class="col-md-4">
                         <div class="profile-img">
                             <img src="<%=designer.imageUrl%>"
                                 alt="" />
                             <% if (isProfileDesigner) { %>
+                                
                             <div class="file btn btn-lg btn-primary">
-                                Change Photo
-                                <input type="file" name="file" />
+                                <div>Change Photo</div>
+                                <form id="change" method="post" action="/change-profile-picture" enctype="multipart/form-data">
+                                    <input type="file" name="image" id="image" onchange="this.form.submit()" />
+                            </form>
                             </div>
                             <% } %>
                         </div>
@@ -68,7 +75,9 @@
                     </div>
                     <% if (isProfileDesigner) { %>
                     <div class="col-md-2">
-                        <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile" />
+                        <a href="/profile-edit/<%=designer.username%>">
+                        <input type="button" class="profile-edit-btn" name="btnAddMore" value="Edit Profile" />
+                        </a>
                     </div>
                     <% } %>
                 </div>
@@ -119,7 +128,7 @@
                             <h1 style="text-align: center;">No Designs Yet!</h1>
                         <% } %>
                 </div>
-            </form>
+            
         </div>
 
         <script>
@@ -141,7 +150,8 @@
                     document.getElementById("about-section").style.display = "inline";
                     document.getElementById("designs-section").style.display = "none";
                 }
-            })
+            });
+          
 
         </script>
     </main>

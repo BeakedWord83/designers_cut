@@ -32,6 +32,12 @@ class Inventory {
       .catch((err) => console.log(err));
   }
 
+  static deleteInventoryById(id) {
+    const db = getDbAPI();
+    return db.collection("inventories").deleteOne({ userId: id });
+  }
+
+
   static fetchInventory(id) {
     const db = getDbAPI();
     console.log(id);

@@ -37,15 +37,18 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen"></link>
 </head>
 <%- include('../includes/nav.ejs') %>
+<a href="/category"><button class="btn btn-primary" style="border:0; width:15rem; height: 50px; font-size: 20px;margin-left: 1rem;text-align:center; font-weight: bold; background-color:rgb(2, 137, 22); padding:0;">Continue Shopping</button></a>
 
 <h2 style="font-size: 45px; position: relative; top: 20%; left: 40%; font-weight: bold">Total Price: $<%= totalPrice %></h2>
 <h3 style="font-size: 35px; position: relative; top: 25%; left: 43%;">Items in Cart: <%= count %></h3>
-<form method="post" action="/checkout">
-<input type="submit" value="Checkout" class="btn btn-primary" style="position: relative; top: 30%; left: 49.5%; width: 200px; height: 50px; font-size: 20px; font-weight: bold;">
+<div style="text-align: center; margin: 0 auto;"> 
+<form method="post" action="/checkout" style="text-align:center;display:inline-block;">
+<input type="submit" value="Checkout" class="btn btn-primary" style="position: relative; width: 200px; height: 50px; font-size: 20px; font-weight: bold;">
 </form>
-<form method="post" action="/remove-all-from-cart">
-<input class="btn btn-primary" style="position: absolute; top: 21%; left: 38.5%;border:0; width: 200px; height: 50px; font-size: 20px; font-weight: bold; background-color:red;" type="submit" class="btn btn-primary" value="Clear Cart">
+<form method="post" action="/remove-all-from-cart" style="text-align:center;display:inline-block;">
+<input class="btn btn-primary" style="position: relative;display:inline-block; border:0; width: 200px; height: 50px; font-size: 20px; font-weight: bold; background-color:red;" type="submit" class="btn btn-primary" value="Clear Cart">
 </form>
+</div>
 <main style="padding-left: 10px; position: relative;">
 <h1>This is your cart page!</h1>
     <% if (products.length > 0) { %>

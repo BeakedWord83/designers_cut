@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/edit-product.css" />
+    <link rel="stylesheet" href="/css/go-back.css">
+    <link rel="stylesheet" href="/css/fontawesome.min.css">
+    <title>Document</title>
+  </head>
+  <body>
+      <%- include("../includes/admin/go-back.ejs") %>
+    <main>
+      <form action="/admin/manage-designers/edit-designer" method="post" class="form-container">
+      
+        <h1 class="headline">Edit Designer</h1>
+        <input type="hidden" name="designerId" value="<%=designer._id%>" />
+        <div class="input-wrapper">
+          <label for="title">Username</label>
+          <input
+            id="title"
+            type="text"
+            name="designerUsername"
+            value="<%=designer.username%>"
+          />
+        </div>
+        <div class="input-wrapper">
+          <label for="description">description</label>
+          <textarea type="text" id="description" name="designerDescription"><%=designer.description%></textarea>
+        </div>
+
+        <div class="input-wrapper">
+            <label for="companyName">password</label>
+            <input type="text" id="companyName" value="<%=designer.password%>" name="designerPassword"></input>
+          </div>
+       
+        <button type="submit">Save</button>
+      </form>
+    </main>
+  </body>
+</html>

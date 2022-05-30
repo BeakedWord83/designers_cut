@@ -1,13 +1,15 @@
 const Client = require("../models/clients");
 const Designer = require("../models/designers");
 const fs = require("fs");
+const path = require("path");
 
 // Clients Authentication
 exports.getLoginPage = (req, res) => {
   const errorMessage = req.flash("error");
+  const successMessage = req.flash("success");
   res.render("auth/client-auth", {
     errorMessage: errorMessage.length > 0 ? errorMessage[0] : null,
-   
+    successMessage: successMessage.length > 0 ? successMessage[0] : null,
   });
 };
 
@@ -18,24 +20,34 @@ exports.postRegister = (req, res) => {
   password = req.body.password;
   id = null;
   console.log(username, email, companyName, password);
+  Client.findByEmail(email)
+    .then((client) => {
+      if (client) {
+        req.flash("error", "Email already exists");
+        res.redirect("/login");
+      } else {
+        const newClient = new Client(id, username, email, companyName, password, []);
+        newClient
+          .saveClient()
+          .then((result) => {
+            console.log("Client Successfully Registered!");
+            res.redirect("/login");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
 
-  const newClient = new Client(id, username, email, companyName, password, []);
-  newClient
-    .saveClient()
-    .then((result) => {
-      console.log("Client Successfully Registered!");
-      res.redirect("/login");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+ 
+})
+.catch((err) => console.log(err));
 };
 
 exports.postLogin = (req, res, next) => {
-    if (req.session.isDesignerLoggedIn) {
-       delete req.session.designer;
-       delete req.session.isDesignerLoggedIn;
-    }
+  if (req.session.isDesignerLoggedIn) {
+    delete req.session.designer;
+    delete req.session.isDesignerLoggedIn;
+  }
 
   email = req.body.email;
   password = req.body.password;
@@ -67,8 +79,10 @@ exports.getLogout = (req, res) => {
 // Designer Authentication
 exports.getDesignerLoginPage = (req, res) => {
   const message = req.flash("error");
+  const successMessage = req.flash("success");
   res.render("auth/designer-auth", {
     errorMessage: message.length > 0 ? message[0] : null,
+    successMessage: successMessage.length > 0 ? successMessage[0] : null,
   });
 };
 
@@ -104,8 +118,7 @@ exports.postDesignerRegister = (req, res) => {
   const username = String(req.body.username).toLowerCase();
   const password = req.body.password;
   const description = req.body.description;
-  let image = req.file;
-  console.log(image);
+
   Designer.fetchByUsername(username)
     .then((designer) => {
       // Checking if the designer is already registered
@@ -115,21 +128,28 @@ exports.postDesignerRegister = (req, res) => {
         return res.redirect("/designer-login");
       }
       // Preprocessing the user's profile picture and adding it to the file system
-      const system_path =
-        "C:\\Users\\user\\Desktop\\folders\\web_project_tehem\\final_project_tehem\\public\\images\\profile-pictures\\";
-      const filename = username + "profilepicture.png";
+      let imagePath = "\\images\\default.jpg"; // default
+      let image = req.file;
 
-      let imagePath = system_path + filename;
+      if (image) {
+        const system_path = path.join(
+          __dirname,
+          "../public/images/profile-pictures/"
+        );
+        const filename = username + "-profilepicture.png";
 
-      image = fs.readFileSync(image.path);
+        imagePath = system_path + filename;
 
-      console.log(image);
-      fs.writeFileSync(imagePath, Buffer.from(image), (err) => {
-        if (err) throw err;
-        console.log("The file has been saved!");
-      });
+        image = fs.readFileSync(image.path);
 
-      imagePath = "\\images\\profile-pictures\\" + filename;
+        console.log(image);
+        fs.writeFileSync(imagePath, Buffer.from(image), (err) => {
+          if (err) throw err;
+          console.log("The file has been saved!");
+        });
+
+        imagePath = "\\images\\profile-pictures\\" + filename;
+      }
       // Creating the new designer
       const id = null;
       console.log(username, password, description, image);

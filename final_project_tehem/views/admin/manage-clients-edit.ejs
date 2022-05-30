@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/edit-product.css" />
+    <link rel="stylesheet" href="/css/go-back.css">
+    <link rel="stylesheet" href="/css/fontawesome.min.css">
+    <title>Document</title>
+  </head>
+  <body>
+      <%- include("../includes/admin/go-back.ejs") %>
+    <main>
+      <form action="/admin/manage-clients/edit-client" method="post" class="form-container">
+          
+        <h1 class="headline">Edit Client</h1>
+        <input type="hidden" name="clientId" value="<%=r_client._id%>" />
+        <div class="input-wrapper">
+          <label for="title">Username</label>
+          <input
+            id="title"
+            type="text"
+            name="clientUsername"
+            value="<%=r_client.username%>"
+          />
+        </div>
+        <div class="input-wrapper">
+          <label for="description">Email</label>
+          <input type="text" id="description" value="<%=r_client.email%>" name="clientEmail"></input>
+        </div>
+
+        <div class="input-wrapper">
+            <label for="companyName">Company Name</label>
+            <input type="text" id="companyName" value="<%=r_client.companyName%>" name="clientCompanyName"></input>
+          </div>
+       
+        <div class="input-wrapper">
+          <label for="password">Password</label>
+          <input
+            id="password"
+            type="text"
+            name="clientPassword"
+            value="<%=r_client.password%>"
+          />
+        </div>
+        <button type="submit">Save</button>
+      </form>
+    </main>
+  </body>
+</html>

@@ -41,6 +41,8 @@ class Product {
       .catch((err) => console.log(err));
   }
 
+ 
+
   static fetchAll() {
     const db = getDb();
     return db
@@ -106,6 +108,18 @@ class Product {
     return db
       .collection("Products")
       .deleteOne({ _id: ObjectId(prodId) })
+      .then((result) => {
+        console.log("Product has been deleted successfully!");
+      })
+      .catch((err) => console.log(err));
+  }
+
+  static deleteByDesignerId(designerId)
+  {
+    const db = getDb();
+    return db
+      .collection("Products")
+      .deleteMany({ "designer._id": ObjectId(designerId) })
       .then((result) => {
         console.log("Product has been deleted successfully!");
       })

@@ -1,5 +1,7 @@
 const db = require("../utils/database").getDb;
 const mongodb = require("mongodb");
+const ObjectId = mongodb.ObjectId;
+
 
 class Client {
   constructor(id, username, email, companyName, password, cart) {
@@ -46,17 +48,42 @@ class Client {
     return this.saveClient();
   }
 
+  static fetchAll()
+  {
+    return db()
+      .collection("Clients")
+      .find({})
+      .toArray()
+      .then((result) => {
+        return result;
+      })
+      .catch((err) => console.log(err));
+  }
+
+
+
   static findById(id) {
     return db()
       .collection("Clients")
-      .findOne({ _id: id })
-      .then((result) => {
-        return result;
+      .findOne({ _id: ObjectId(id) })
+      .then((client) => {
+        return client;
       })
       .catch((err) => {
         console.log(err);
         throw err;
       });
+  }
+
+
+  static findByEmail(email) {
+    return db()
+      .collection("Clients")
+      .findOne({ email: email })
+      .then((result) => {
+        return result;
+      })
+      .catch((err) => console.log(err));
   }
 
   static login(email, password) {
@@ -68,6 +95,18 @@ class Client {
       })
       .catch((err) => console.log(err));
   }
+
+static deleteById(id) {
+  return db()
+    .collection("Clients")
+    .deleteOne({ _id: ObjectId(id) })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => console.log(err));
+}
+
+
 }
 
 module.exports = Client;

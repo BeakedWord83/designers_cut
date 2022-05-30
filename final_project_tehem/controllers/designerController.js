@@ -183,7 +183,6 @@ exports.postAddProductPage = (req, res) => {
 
   const oldPath = path.join(__dirname, "..", "public", imageUrl);
   const newPath = path.join(__dirname, "..", "public", newImageUrl);
-  console.log("nigger " + oldPath + " hahahaha " + newPath);
   fs.rename(oldPath, newPath, () => {
     product.saveProduct();
     res.redirect("/my-designs");
@@ -192,28 +191,131 @@ exports.postAddProductPage = (req, res) => {
 
 exports.getProfilePage = (req, res) => {
   const designerUsername = req.params.username;
-  
   console.log(designerUsername);
+  const successMessage = req.flash("success");
 
   return Designer.fetchByUsername(designerUsername)
     .then((designer) => {
+      console.log(designer);
       let isProfileDesigner = false;
-      if (req.designer)
-      {
-        isProfileDesigner = req.designer._id.toString() == designer._id.toString();
+      if (req.designer) {
+        isProfileDesigner =
+          req.designer._id.toString() == designer._id.toString();
       }
-     
-  
+      console.log("IS PROFILE DESIGNER??: " + isProfileDesigner);
       Product.fetchByDesigner(designer._id).then((products) => {
-        
-
-        return res.render("designer/profile", { designer, designs: products, isProfileDesigner });
+        return res.render("designer/profile", {
+          designer,
+          designs: products,
+          isProfileDesigner,
+          successMessage: successMessage.length > 0 ? successMessage[0] : null,
+        });
       });
     })
 
     .catch((err) => {
+      console.log("hahaha" + err);
+    });
+};
+
+exports.getEditProfilePage = (req, res) => {
+  const designerUsername = req.params.username;
+  const errorMessage = req.flash("error");
+
+  Designer.fetchByUsername(designerUsername).then((designer) => {
+    return res.render("designer/edit-profile", {
+      designer,
+      errorMessage: errorMessage.length > 0 ? errorMessage[0] : null,
+    });
+  });
+};
+
+exports.postEditProfilePage = (req, res) => {
+  const designerUsername = req.designer.username;
+  console.log(designerUsername);
+  console.log(req.body);
+
+  const newUsername = req.body.username;
+  const newPassword = req.body.password;
+  const newDescription = req.body.description;
+
+  Designer.fetchByUsername(newUsername)
+    .then((designer) => {
+      if (designer) {
+        req.flash("error", "Username already taken");
+        return res.redirect("/profile-edit/" + designerUsername);
+      } else {
+        const designer = req.designer;
+        designer.username = newUsername;
+        designer.password = newPassword;
+        designer.description = newDescription;
+        designer
+          .saveDesigner()
+          .then((result) => {
+            Product.fetchAll().then((products) => {
+              products.forEach((product) => {
+                if (product.designer._id.toString() == designer._id.toString()) {
+                  product.designer.username = newUsername;
+                product.saveProduct();
+                }
+              });
+              
+                req.flash("success", "Profile updated successfully");
+            return res.redirect("/designer-login");
+            });
+              
+            
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    })
+    .catch((err) => {
       console.log(err);
     });
+};
+
+exports.postChangeProfilePicture = (req, res) => {
+  console.log("actually here");
+  let image = req.file;
+console.log(image);
+  
+    const system_path = path.join(
+      __dirname,
+      "../public/images/profile-pictures/"
+    );
+    const filename = req.designer.username + "-profilepicture.png";
+
+    let imagePath = system_path + filename;
+
+    image = fs.readFileSync(image.path);
+
+    console.log(image);
+    fs.writeFileSync(imagePath, Buffer.from(image), (err) => {
+      if (err) throw err;
+      console.log("The file has been saved!");
+      
+    });
+
+    imagePath = "\\images\\profile-pictures\\" + filename;
+    const designer = req.designer;
+    designer.imageUrl = imagePath;
+    designer.saveDesigner().then((result) => {
+      Product.fetchAll().then((products) => {
+        products.forEach((product) => {
+          if (product.designer._id.toString() == designer._id.toString()) {
+            product.designer.imageUrl = imagePath;
+            product.saveProduct();
+          }
+        });
+      req.flash("success", "Profile Picture Changed Successfully!");
+      return res.redirect("/profile/" + designer.username);
+
+    });
+    });
+
+  
 };
 
 exports.getWalletPage = (req, res) => {
@@ -227,9 +329,7 @@ exports.getWalletPage = (req, res) => {
   });
 };
 
-
-exports.removeDesignFromInventory = (req, res) =>
-{
+exports.removeDesignFromInventory = (req, res) => {
   const designName = req.params.designName;
   console.log(designName);
   request.post(
@@ -243,8 +343,7 @@ exports.removeDesignFromInventory = (req, res) =>
       }
     }
   );
-} 
-
+};
 
 exports.removeFromInventory = (req, res) => {
   const designName = req.params.designName;
@@ -260,8 +359,7 @@ exports.removeFromInventory = (req, res) => {
       }
     }
   );
-}
-
+};
 
 exports.removeFromSale = (req, res) => {
   console.log("here");
@@ -271,14 +369,15 @@ exports.removeFromSale = (req, res) => {
   console.log(imagePath + productDesignName);
   if (fs.existsSync(imagePath + productDesignName)) {
     Product.deleteByImageName(designName);
-    fs.rename(imagePath + productDesignName, imagePath + designName+'.png', ()=>{
-      res.redirect("/my-designs");
-    });
-
-  } 
-  else {
+    fs.rename(
+      imagePath + productDesignName,
+      imagePath + designName + ".png",
+      () => {
+        res.redirect("/my-designs");
+      }
+    );
+  } else {
     console.log("no such file");
     res.redirect("/my-designs");
   }
-  
-}
+};

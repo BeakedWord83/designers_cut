@@ -18,7 +18,11 @@ router.post('/design', isDesignerAuth, designerController.postDesignPage);
 
 router.get('/my-designs', isDesignerAuth, designerController.getMyDesignsPage);
 
-router.get('/profile/:username', designerController.getProfilePage)
+router.get('/profile/:username', designerController.getProfilePage);
+router.get('/profile-edit/:username', isDesignerAuth, designerController.getEditProfilePage);
+router.post('/edit-profile/', isDesignerAuth, designerController.postEditProfilePage);
+router.post('/change-profile-picture', isDesignerAuth, designerController.postChangeProfilePicture);
+
 router.get('/add-product/:designName', isDesignerAuth, designerController.getAddProductPage);
 router.post('/add-product', designerController.postAddProductPage);
 

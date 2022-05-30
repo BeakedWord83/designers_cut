@@ -37,7 +37,6 @@ exports.postUseAI = (req, res, next) => {
   };
 
   // console.log(formData);
-
   request.post(
     {
       headers: {
@@ -141,3 +140,14 @@ exports.removeFromInventory = (req, res) => {
       });
     });
 };
+
+
+exports.deleteInventory = (req, res) => {
+  const designerId = req.body.designerId;
+  Inventory.deleteInventoryById(designerId).then((inventory) => {
+    res.status(200).json({
+      message: "Deleted inventory successfully!",
+    });
+
+  });
+}

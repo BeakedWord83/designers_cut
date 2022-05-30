@@ -8,6 +8,9 @@
       <% if (errorMessage) { %>
       <div class="user-message user-message--error" onClick="this.style.visibility='hidden';"><%= errorMessage %></div>
       <% } %>
+      <% if (successMessage) { %>
+      <div class="user-message user-message--success" onClick="this.style.visibility='hidden';"><%= successMessage %></div>
+      <% } %>
      
 
       <div class="cotn_principal">

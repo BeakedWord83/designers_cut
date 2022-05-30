@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Designers</title>
+    <style>
+      .data-table {
+        margin: auto;
+        border: 3px solid black;
+        border-collapse: collapse;
+        height: 25%;
+        width: 50%;
+      }
+      .data-table tr,
+      th {
+        border: 1px solid black;
+      }
+      .data-table tr:not(:first-child) {
+        color: rgb(15, 104, 149);
+        font-size: 2rem;
+        position: relative;
+      }
+
+      .data-table__headers {
+        font-weight: bold;
+        font-size: 2.5rem;
+      }
+
+      .action-buttons button {
+        position: relative;
+        padding: 0.4rem;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 1.1rem;
+      }
+      #action-delete {
+        background: red;
+        color: white;
+      }
+      #action-edit {
+        background: yellow;
+        color: black;
+      }
+
+      .header {
+        text-align: center;
+        font-size: 4rem;
+      }
+    </style>
+  </head>
+  <body>
+    <%- include("../includes/admin/go-back.ejs") %>
+    <h1 class="header">Products Management</h1>
+    <% if (designers.length > 0) { %>
+
+    <table class="data-table">
+      <tr class="data-table__headers">
+        <th>Username</th>
+        <th>Description</th>
+        <th>Wallet</th>
+        <th>Action</th>
+      </tr>
+
+      <% designers.forEach(designer => { %>
+
+      <tr>
+        <th><%=designer.username%></th>
+        <th><%=designer.description%></th>
+        <th><%=designer.wallet%></th>
+        <th class="action-buttons">
+          <form action="/admin/manage-designers" method="post">
+            <input type="hidden" name="designerId" value="<%=designer._id%>" />
+            <button
+              id="action-delete"
+              type="submit"
+              name="action"
+              value="delete"
+            >
+              Delete
+            </button>
+            <button id="action-edit" type="submit" name="action" value="edit">
+              Edit
+            </button>
+          </form>
+        </th>
+      </tr>
+
+      <% }) %>
+    </table>
+    <% } else { %>
+    <center>
+      <h1>No designers Found</h1>
+    </center>
+    <% } %>
+  </body>
+</html>

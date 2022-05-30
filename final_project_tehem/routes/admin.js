@@ -5,8 +5,7 @@ const isAdminLoggedIn = require("../middleware/is-auth").adminIsLoggedIn;
 const isSuperAdminLoggedIn = require("../middleware/is-auth").superAdminIsLoggedIn;
 const adminController = require("../controllers/adminController");
 
-router.get("/super-admin-login", adminController.getSuperAdminLoginPage);
-router.post("/super-admin-login", adminController.postSuperAdminLoginPage);
+router.post("/admin-login", adminController.postAdminLoginPage);
 
 router.get(
   "/super-admin",
@@ -37,6 +36,52 @@ router.post(
   isAdminLoggedIn,
   adminController.postEditProductPage
 );
+
+router.get(
+  "/manage-clients",
+  isAdminLoggedIn,
+  adminController.getManageClientsPage
+);
+
+router.post(
+  "/manage-clients",
+  isAdminLoggedIn,
+  adminController.postManageClientsPage
+)
+
+router.get(
+  "/manage-clients/edit-client/:clientId",
+  isAdminLoggedIn,
+  adminController.getEditClientPage
+);
+
+router.post(
+  "/manage-clients/edit-client",
+  isAdminLoggedIn,
+  adminController.postEditClientPage
+);
+
+router.get(
+  "/manage-designers",
+  isAdminLoggedIn,
+  adminController.getManageDesignersPage
+);
+router.post(
+  "/manage-designers",
+  isAdminLoggedIn,
+  adminController.postManageDesignersPage
+);
+router.get(
+  "/manage-designers/edit-designer/:designerId",
+  isAdminLoggedIn,
+  adminController.getEditDesignerPage
+);
+router.post(
+  "/manage-designers/edit-designer",
+  isAdminLoggedIn,
+  adminController.postEditDesignerPage
+);
+
 
 router.get(
   "/manage-admins",

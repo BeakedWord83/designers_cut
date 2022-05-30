@@ -32,6 +32,7 @@
                      <a href="/category/sport">Sport</a>
                      <a href="/pants/elegant">Elegant</a>
                      <a href="/shoes/vans">Vans</a>
+		     <a href="/admin/admin">Admin Panel</a>
                      <% if (isClientLoggedIn) { %>
                      <a href="/cart">My Cart</a>
                      <a href="/logout"> Logout</a>
@@ -70,6 +71,7 @@
                               <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                               <span class="padding_10">Cart</span></a>
                            </li>
+
                            <% } 
 
                             else { %>
@@ -136,131 +138,78 @@
       <!-- banner bg main end -->
    </div>
       <!-- fashion section start -->
+      <% if (sportItems.length >= 9) {%>
       <div class="fashion_section">
          <div id="main_slider" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                <div class="carousel-item active">
                   <div class="container">
-                     <h1 class="fashion_taital">Tops 1</h1>
+
+                     <h1 class="fashion_taital">Sports</h1>
                      <div class="fashion_section_2">
                         <div class="row">
+                           <% for(let i=0; i<3; i++) { %>
                            <div class="col-lg-4 col-sm-4">
                               <div class="box_main">
-                                 <h4 class="shirt_text">Man T -shirt</h4>
-                                 <p class="price_text">Price  <span style="color: #262626;">$ 30</span></p>
-                                 <div class="tshirt_img"><img src="images/tshirt-img.png"></div>
+                                 <h4 class="shirt_text"><%=sportItems[i].title%></h4>
+                                 <p class="price_text">Price  <span style="color: #262626;">$ <%=sportItems[i].price%></span></p>
+                                 <div class="tshirt_img"><img src="<%=sportItems[i].imageUrl%>"></div>
                                  <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
+                                    <div class="buy_bt"><a href="/item/<%=sportItems[i]._id%>">Buy Now</a></div>
+                                    <div class="seemore_bt"><a href="/category/sport">See More</a></div>
                                  </div>
                               </div>
                            </div>
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Man -shirt</h4>
-                                 <p class="price_text">Price  <span style="color: #262626;">$ 30</span></p>
-                                 <div class="tshirt_img"><img src="images/dress-shirt-img.png"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Woman Scart</h4>
-                                 <p class="price_text">Price  <span style="color: #262626;">$ 30</span></p>
-                                 <div class="tshirt_img"><img src="images/women-clothes-img.png"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
-                                 </div>
-                              </div>
-                           </div>
+                           <% } %>
+                          
                         </div>
                      </div>
                   </div>
                </div>
                <div class="carousel-item">
                   <div class="container">
-                     <h1 class="fashion_taital">Tops 2</h1>
+                     <h1 class="fashion_taital">Sports</h1>
                      <div class="fashion_section_2">
                         <div class="row">
+                           <% for(let i=3; i<6; i++) { %>
                            <div class="col-lg-4 col-sm-4">
                               <div class="box_main">
-                                 <h4 class="shirt_text">Man T -shirt</h4>
-                                 <p class="price_text">Price  <span style="color: #262626;">$ 30</span></p>
-                                 <div class="tshirt_img"><img src="images/tshirt-img.png"></div>
+                                 <h4 class="shirt_text"><%=sportItems[i].title%></h4>
+                                 <p class="price_text">Price  <span style="color: #262626;">$ <%=sportItems[i].price%></span></p>
+                                 <div class="tshirt_img"><img src="<%=sportItems[i].imageUrl%>"></div>
                                  <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
+                                    <div class="buy_bt"><a href="/item/<%=sportItems[i]._id%>">Buy Now</a></div>
+                                    <div class="seemore_bt"><a href="/category/sport"></a></div>
                                  </div>
                               </div>
                            </div>
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Man -shirt</h4>
-                                 <p class="price_text">Price  <span style="color: #262626;">$ 30</span></p>
-                                 <div class="tshirt_img"><img src="images/dress-shirt-img.png"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Woman Scart</h4>
-                                 <p class="price_text">Price  <span style="color: #262626;">$ 30</span></p>
-                                 <div class="tshirt_img"><img src="images/women-clothes-img.png"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
-                                 </div>
-                              </div>
-                           </div>
+                           <% } %>
+                          
+                         
                         </div>
                      </div>
                   </div>
                </div>
                <div class="carousel-item">
                   <div class="container">
-                     <h1 class="fashion_taital">Tops 3</h1>
+                     <h1 class="fashion_taital">Sports</h1>
                      <div class="fashion_section_2">
                         <div class="row">
+                           <% for(let i=6; i<9; i++) { %>
                            <div class="col-lg-4 col-sm-4">
                               <div class="box_main">
-                                 <h4 class="shirt_text">Man T -shirt</h4>
-                                 <p class="price_text">Price  <span style="color: #262626;">$ 30</span></p>
-                                 <div class="tshirt_img"><img src="images/tshirt-img.png"></div>
+                                 <h4 class="shirt_text"><%=sportItems[i].title%></h4>
+                                 <p class="price_text">Price  <span style="color: #262626;">$ <%=sportItems[i].price%></span></p>
+                                 <div class="tshirt_img"><img src="<%=sportItems[i].imageUrl%>"></div>
                                  <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
+                                    <div class="buy_bt"><a href="/item/<%=sportItems[i]._id%>">Buy Now</a></div>
+                                    <div class="seemore_bt"><a href="/category/sport">See More</a></div>
                                  </div>
                               </div>
                            </div>
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Man -shirt</h4>
-                                 <p class="price_text">Price  <span style="color: #262626;">$ 30</span></p>
-                                 <div class="tshirt_img"><img src="images/dress-shirt-img.png"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Woman Scart</h4>
-                                 <p class="price_text">Price  <span style="color: #262626;">$ 30</span></p>
-                                 <div class="tshirt_img"><img src="images/women-clothes-img.png"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
-                                 </div>
-                              </div>
-                           </div>
+                           <% } %>
+                           
+                          
                         </div>
                      </div>
                   </div>
@@ -274,48 +223,57 @@
             </a>
          </div>
       </div>
+      <% } %>
+
       <!-- fashion section end -->
       <!-- electronic section start -->
+      <% if (elegantItems.length >= 9) {%>
+
       <div class="fashion_section">
          <div id="electronic_main_slider" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                <div class="carousel-item active">
                   <div class="container">
-                     <h1 class="fashion_taital">Shoes</h1>
+                     <h1 class="fashion_taital">Elegant</h1>
                      <div class="fashion_section_2">
                         <div class="row">
+                           <% for(let i=0; i<3; i++) { %>
                            <div class="col-lg-4 col-sm-4">
                               <div class="box_main">
-                                 <h4 class="shirt_text">Laptop</h4>
-                                 <p class="price_text">Start Price  <span style="color: #262626;">$ 100</span></p>
-                                 <div class="electronic_img"><img src="images/laptop-img.png"></div>
+                                 <h4 class="shirt_text"> <%=elegantItems[i].title%></h4>
+                                 <p class="price_text">Start Price  <span style="color: #262626;">$ <%=elegantItems[i].price%></span></p>
+                                 <div class="electronic_img"><img src="<%=elegantItems[i].imageUrl%>"></div>
                                  <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
+                                    <div class="buy_bt"><a href="/item/<%=elegantItems[i]._id%>">Buy Now</a></div>
+                                    <div class="seemore_bt"><a href="/category/elegant">See More</a></div>
                                  </div>
                               </div>
                            </div>
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Mobile</h4>
-                                 <p class="price_text">Start Price  <span style="color: #262626;">$ 100</span></p>
-                                 <div class="electronic_img"><img src="images/mobile-img.png"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
+                           <% } %>
+                           
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="carousel-item">
+                  <div class="container">
+                     <h1 class="fashion_taital">Elegant</h1>
+                     <div class="fashion_section_2">
+                        <div class="row">
+                           <% for(let i=3; i<6; i++) { %>
+                              <div class="col-lg-4 col-sm-4">
+                                 <div class="box_main">
+                                    <h4 class="shirt_text"> <%=elegantItems[i].title%></h4>
+                                    <p class="price_text">Start Price  <span style="color: #262626;">$ <%=elegantItems[i].price%></span></p>
+                                    <div class="electronic_img"><img src="<%=elegantItems[i].imageUrl%>"></div>
+                                    <div class="btn_main">
+                                       <div class="buy_bt"><a href="/item/<%=elegantItems[i]._id%>">Buy Now</a></div>
+                                       <div class="seemore_bt"><a href="/category/elegant">See More</a></div>
+                                    </div>
                                  </div>
                               </div>
-                           </div>
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Computers</h4>
-                                 <p class="price_text">Start Price  <span style="color: #262626;">$ 100</span></p>
-                                 <div class="electronic_img"><img src="images/computer-img.png"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
-                                 </div>
-                              </div>
+                           <% } %>
+                           
                            </div>
                         </div>
                      </div>
@@ -326,86 +284,25 @@
                      <h1 class="fashion_taital">Shoes</h1>
                      <div class="fashion_section_2">
                         <div class="row">
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Laptop</h4>
-                                 <p class="price_text">Start Price  <span style="color: #262626;">$ 100</span></p>
-                                 <div class="electronic_img"><img src="images/laptop-img.png"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
+                           <% for(let i=6; i<9; i++) { %>
+                              <div class="col-lg-4 col-sm-4">
+                                 <div class="box_main">
+                                    <h4 class="shirt_text"> <%=elegantItems[i].title%></h4>
+                                    <p class="price_text">Start Price  <span style="color: #262626;">$ <%=elegantItems[i].price%></span></p>
+                                    <div class="electronic_img"><img src="<%=elegantItems[i].imageUrl%>"></div>
+                                    <div class="btn_main">
+                                       <div class="buy_bt"><a href="/item/<%=elegantItems[i]._id%>">Buy Now</a></div>
+                                       <div class="seemore_bt"><a href="/category/elegant">See More</a></div>
+                                    </div>
                                  </div>
                               </div>
-                           </div>
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Mobile</h4>
-                                 <p class="price_text">Start Price  <span style="color: #262626;">$ 100</span></p>
-                                 <div class="electronic_img"><img src="images/mobile-img.png"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Computers</h4>
-                                 <p class="price_text">Start Price  <span style="color: #262626;">$ 100</span></p>
-                                 <div class="electronic_img"><img src="images/computer-img.png"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="carousel-item">
-                  <div class="container">
-                     <h1 class="fashion_taital">Shoes</h1>
-                     <div class="fashion_section_2">
-                        <div class="row">
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Laptop</h4>
-                                 <p class="price_text">Start Price  <span style="color: #262626;">$ 100</span></p>
-                                 <div class="electronic_img"><img src="images/laptop-img.png"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Mobile</h4>
-                                 <p class="price_text">Start Price  <span style="color: #262626;">$ 100</span></p>
-                                 <div class="electronic_img"><img src="images/mobile-img.png"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Computers</h4>
-                                 <p class="price_text">Start Price  <span style="color: #262626;">$ 100</span></p>
-                                 <div class="electronic_img"><img src="images/computer-img.png"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
-                                 </div>
-                              </div>
-                           </div>
+                           <% } %>
                         </div>
                      </div>
                   </div>
                </div>
             </div>
+
             <a class="carousel-control-prev" href="#electronic_main_slider" role="button" data-slide="prev">
             <i class="fa fa-angle-left"></i>
             </a>
@@ -413,50 +310,60 @@
             <i class="fa fa-angle-right"></i>
             </a>
          </div>
-      </div>
+         <% } %>
+      
       <!-- electronic section end -->
       <!-- jewellery  section start -->
+      <% if (vansItems.length >=9) {%>
       <div class="jewellery_section">
          <div id="jewellery_main_slider" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                <div class="carousel-item active">
                   <div class="container">
-                     <h1 class="fashion_taital">Bags</h1>
+                     <h1 class="fashion_taital">Vans</h1>
                      <div class="fashion_section_2">
                         <div class="row">
+                           <% for(let i=0; i<3; i++) { %>
                            <div class="col-lg-4 col-sm-4">
                               <div class="box_main">
-                                 <h4 class="shirt_text">Jumkas</h4>
-                                 <p class="price_text">Start Price  <span style="color: #262626;">$ 100</span></p>
-                                 <div class="jewellery_img"><img src="images/jhumka-img.png"></div>
+                                 <h4 class="shirt_text"><%=vansItems[i].title%></h4>
+                                 <p class="price_text">Start Price  <span style="color: #262626;">$ <%=vansItems[i].price%></span></p>
+                                 <div class="jewellery_img"><img src="<%=vansItems[i].imageUrl%>"></div>
                                  <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
+                                    <div class="buy_bt"><a href="/item/vansItems[i]._id%>">Buy Now</a></div>
+                                    <div class="seemore_bt"><a href="/category/vans">See More</a></div>
                                  </div>
                               </div>
                            </div>
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Necklaces</h4>
-                                 <p class="price_text">Start Price  <span style="color: #262626;">$ 100</span></p>
-                                 <div class="jewellery_img"><img src="images/neklesh-img.png"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
+                           <% } %>
+                          
+                           
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="carousel-item">
+                  <div class="container">
+                     <h1 class="fashion_taital">Vans</h1>
+                     <div class="fashion_section_2">
+                        <div class="row">
+                           <% for(let i=3; i<6; i++) { %>
+                              <div class="col-lg-4 col-sm-4">
+                                 <div class="box_main">
+                                    <h4 class="shirt_text"><%=vansItems[i].title%></h4>
+                                    <p class="price_text">Start Price  <span style="color: #262626;">$ <%=vansItems[i].price%></span></p>
+                                    <div class="jewellery_img"><img src="<%=vansItems[i].imageUrl%>"></div>
+                                    <div class="btn_main">
+                                       <div class="buy_bt"><a href="/item/vansItems[i]._id%>">Buy Now</a></div>
+                                       <div class="seemore_bt"><a href="/category/vans">See More</a></div>
+                                    </div>
                                  </div>
                               </div>
-                           </div>
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Kangans</h4>
-                                 <p class="price_text">Start Price  <span style="color: #262626;">$ 100</span></p>
-                                 <div class="jewellery_img"><img src="images/kangan-img.png"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
-                                 </div>
-                              </div>
-                           </div>
+                              <% } %>
+
+                           
+                          
+                          
                         </div>
                      </div>
                   </div>
@@ -466,81 +373,23 @@
                      <h1 class="fashion_taital">Bags</h1>
                      <div class="fashion_section_2">
                         <div class="row">
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Jumkas</h4>
-                                 <p class="price_text">Start Price  <span style="color: #262626;">$ 100</span></p>
-                                 <div class="jewellery_img"><img src="images/jhumka-img.png"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
+                           <% for(let i=6; i<9; i++) { %>
+                              <div class="col-lg-4 col-sm-4">
+                                 <div class="box_main">
+                                    <h4 class="shirt_text"><%=vansItems[i].title%></h4>
+                                    <p class="price_text">Start Price  <span style="color: #262626;">$ <%=vansItems[i].price%></span></p>
+                                    <div class="jewellery_img"><img src="<%=vansItems[i].imageUrl%>"></div>
+                                    <div class="btn_main">
+                                       <div class="buy_bt"><a href="/item/vansItems[i]._id%>">Buy Now</a></div>
+                                       <div class="seemore_bt"><a href="/category/vans">See More</a></div>
+                                    </div>
                                  </div>
                               </div>
-                           </div>
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Necklaces</h4>
-                                 <p class="price_text">Start Price  <span style="color: #262626;">$ 100</span></p>
-                                 <div class="jewellery_img"><img src="images/neklesh-img.png"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Kangans</h4>
-                                 <p class="price_text">Start Price  <span style="color: #262626;">$ 100</span></p>
-                                 <div class="jewellery_img"><img src="images/kangan-img.png"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="carousel-item">
-                  <div class="container">
-                     <h1 class="fashion_taital">Bags</h1>
-                     <div class="fashion_section_2">
-                        <div class="row">
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Jumkas</h4>
-                                 <p class="price_text">Start Price  <span style="color: #262626;">$ 100</span></p>
-                                 <div class="jewellery_img"><img src="images/jhumka-img.png"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Necklaces</h4>
-                                 <p class="price_text">Start Price  <span style="color: #262626;">$ 100</span></p>
-                                 <div class="jewellery_img"><img src="images/neklesh-img.png"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Kangans</h4>
-                                 <p class="price_text">Start Price  <span style="color: #262626;">$ 100</span></p>
-                                 <div class="jewellery_img"><img src="images/kangan-img.png"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
-                                 </div>
-                              </div>
-                           </div>
+                              <% } %>
+
+                          
+                          
+                          
                         </div>
                      </div>
                   </div>
@@ -564,6 +413,7 @@
             </a>
          </div>
       </div>
+      <% } %>
       <!-- jewellery  section end -->
    </main>
       <%- include('../includes/footer.ejs') %>

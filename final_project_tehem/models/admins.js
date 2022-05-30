@@ -1,14 +1,15 @@
 const getDb = require("../utils/database").getDb;
-const superAdmin = require("./superAdmin");
 const mongodb = require("mongodb");
 
-class Admin extends superAdmin {
-  constructor(id, username, password, firstName, lastName, address) {
-    super(username, password, false);
-    this._id = id ? mongodb.ObjectId() : null;
+class Admin {
+  constructor(id, username, password, firstName, lastName, address, isSuperAdmin) {
+    this._id = id ? mongodb.ObjectId(id) : null;
+    this.username = username;
+    this.password = password;
     this.firstName = firstName;
     this.lastName = lastName;
     this.address = address;
+    this.isSuperAdmin = false;
   }
 
   saveAdmin() {

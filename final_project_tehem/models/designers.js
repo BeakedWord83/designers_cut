@@ -1,6 +1,9 @@
 const db = require("../utils/database").getDb;
 const mongodb = require("mongodb");
 
+const ObjectId = mongodb.ObjectId;
+
+
 class Designer {
   constructor(id, username, password, description, imagePath, wallet) {
     this._id = id ? mongodb.ObjectId(id) : null;
@@ -38,6 +41,18 @@ class Designer {
       .catch((err) => console.log(err));
   }
 
+  static fetchAll()
+  {
+    return db()
+      .collection("Designers")
+      .find({})
+      .toArray()
+      .then((result) => {
+        return result;
+      })
+      .catch((err) => console.log(err));
+  }
+
   static fetchByUsername(username) {
     return db()
       .collection("Designers")
@@ -51,7 +66,7 @@ class Designer {
   static fetchById(id) {
     return db()
       .collection("Designers")
-      .findOne({ _id: id })
+      .findOne({ _id: ObjectId(id) })
       .then((designer) => {
         return designer;
       });
@@ -67,10 +82,10 @@ class Designer {
       .catch((err) => console.log(err));
   }
 
-  static deleteByid(username) {
+  static deleteById(id) {
     return db()
       .collection("Designers")
-      .deleteOne({ username: username })
+      .deleteOne({ _id: ObjectId(id) })
       .then((result) => {
         console.log("Account deleted successfully");
       })

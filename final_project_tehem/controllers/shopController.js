@@ -1,18 +1,37 @@
 // Module Imports
-
+const path = require("path");
 const Client = require("../models/clients");
 const Product = require("../models/products");
 const Designer = require("../models/designers");
 const stripe = require("stripe")(
   "sk_test_51KP3UzLEudQkZUXXnuWsJ7UnYsJvqVD9me6AJjfrnnpOwTpqRkGq0sQxnTy47F0fAB0tjpDbnIQhSTokPQxpJk6o00AtIOO8Vx"
 );
+var nodemailer = require("nodemailer");
+
+var transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "designerscut22@gmail.com",
+    pass: "designerscut22Kk;",
+  },
+});
 
 // <-------------------- Main page -------------------->
 exports.getIndexPage = (req, res) => {
   const message = req.flash("success");
-  res.render("shop/index", {
-    successMessage: message.length > 0 ? message[0] : null,
-  });
+  Product.fetchAll()
+    .then((products) => {
+      let sportItems = products.filter((product) => product.type === "sport");
+      let elegantItems = products.filter((product) => product.type === "elegant");
+      let vansItems = products.filter((product) => product.type === "vans");
+      res.render("shop/index", {
+        sportItems,
+        elegantItems,
+        vansItems,
+        successMessage: message.length > 0 ? message[0] : null,
+      });
+    })
+    .catch((err) => console.error(err));
 };
 
 // <----------------------- Login page -------------------->
@@ -20,16 +39,15 @@ exports.getIndexPage = (req, res) => {
 // Individual Item page
 exports.getItemPage = (req, res, next) => {
   itemId = req.params.itemId;
-  Product.fetchById(itemId)
-    .then((product) => {
-      if (!product) {
-        res.redirect('/');
-      }
-  res.render("shop/item", {
-    product,
-    path: `item/${itemId}`,
+  Product.fetchById(itemId).then((product) => {
+    if (!product) {
+      res.redirect("/");
+    }
+    res.render("shop/item", {
+      product,
+      path: `item/${itemId}`,
+    });
   });
-});
 };
 exports.PostItemPage = (req, res) => {
   itemId = req.params.itemId;
@@ -46,7 +64,7 @@ exports.getCategoryPage = (req, res) => {
         type && categories.includes(type.toLowerCase())
           ? products.filter((product) => product.type === type)
           : products;
-      
+
       console.log("haha!", filtered);
       return res.render("shop/category", { products: filtered });
     })
@@ -115,19 +133,45 @@ exports.getCheckoutPage = (req, res) => {
 exports.getSuccessPage = async (req, res) => {
   // assign payment for each designer
   const products = req.client.cart;
-  for (let product of products) {
-    Designer.findAndPay(product.designer._id, parseFloat(product.price)*0.3);
-    
-  }
+  if (products.length > 0) {
+    for (let product of products) {
+      Designer.findAndPay(
+        product.designer._id,
+        parseFloat(product.price) * 0.3
+      );
+    }
 
-  // empty the client's cart
-  req.client.cart = [];
-  req.client
-    .saveClient()
-    .then((result) => {
-      res.render("shop/success");
-    })
-    .catch((err) => console.error(err));
+    console.log(products);
+    var mailOptions = {
+      from: "designerscut22@gmail.com",
+      to: req.client.email,
+      subject: "Thank You For your Purchase!",
+      text: "Here are your items: ",
+      attachments: products.map((product) => {
+        return {
+          filename: product.title + ".png",
+          path: path.join(__dirname, "..", "public", product.imageUrl),
+        };
+      }),
+    };
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+    // empty the client's cart
+    req.client.cart = [];
+    req.client
+      .saveClient()
+      .then((result) => {
+        res.render("shop/success");
+      })
+      .catch((err) => console.error(err));
+  } else {
+    res.redirect("/");
+  }
 };
 
 exports.getCancelPage = (req, res) => {

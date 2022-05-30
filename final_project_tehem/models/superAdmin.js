@@ -1,29 +1,14 @@
 const getDb = require("../utils/database").getDb;
+const Admin = require("./admins");
 
-
-class superAdmin
+class superAdmin extends Admin
 { 
     constructor(username, password, isSuperAdmin)
     {
-        this.username = username;
-        this.password = password;
-        this.isSuperAdmin = isSuperAdmin;
+        super(username=username, password=password, isSuperAdmin=true);
     }
 
-    superAdminLogin()
-    {
-        const db = getDb();
-        return db
-            .collection("admin")
-            .findOne({ username: this.username, password: this.password, isSuperAdmin: this.isSuperAdmin })
-            .then((superAdmin) => {
-                if (!superAdmin) {
-                    return null;
-                }
-                return superAdmin;
-            })
-            .catch((err) => console.log(err));
-    }
+    
 }
 
 module.exports = superAdmin;

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Manage Products</title>
+    <title>Manage Clients</title>
     <style>
       .data-table {
         margin: auto;
@@ -52,26 +52,26 @@
   </head>
   <body>
     <%- include("../includes/admin/go-back.ejs") %>
-    <h1 class="header">Products Management</h1>
-    <% if (products.length > 0) { %>
+    <h1 class="header">Clients Management</h1>
+    <% if (clients.length > 0) { %>
 
     <table class="data-table">
       <tr class="data-table__headers">
-        <th>Product Title</th>
-        <th>Product Type</th>
-        <th>Product Price</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Company Name</th>
         <th>Action</th>
       </tr>
 
-      <% products.forEach(product => { %>
+      <% clients.forEach(client => { %>
 
       <tr>
-        <th><%=product.title%></th>
-        <th><%=product.type%></th>
-        <th><%=product.price%></th>
+        <th><%=client.username%></th>
+        <th><%=client.email%></th>
+        <th><%=client.companyName%></th>
         <th class="action-buttons">
-          <form action="/admin/manage-products" method="post">
-            <input type="hidden" name="productId" value="<%=product._id%>" />
+          <form action="/admin/manage-clients" method="post">
+            <input type="hidden" name="clientId" value="<%=client._id%>" />
             <button
               id="action-delete"
               type="submit"
@@ -91,7 +91,7 @@
     </table>
     <% } else { %>
     <center>
-      <h1>No Products Found</h1>
+      <h1>No Clients Found</h1>
     </center>
     <% } %>
   </body>
