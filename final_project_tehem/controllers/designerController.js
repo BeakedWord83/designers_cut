@@ -4,6 +4,8 @@ const request = require("request");
 const fs = require("fs");
 const path = require("path");
 
+const apiUrl = "https://designers-cut-api.herokuapp.com"
+
 exports.getDesignerDashboardPage = (req, res) => {
   res.render("designer/designer-dashboard", {
     path: "/about",
@@ -25,7 +27,7 @@ exports.postDesignPage = (req, res) => {
   binaryData = fs.readFileSync(req.file.path);
 
   request.post(
-    "http://localhost:8080/useAI",
+    `${apiUrl}/useAI`,
     { json: { image: binaryData } },
     function (error, response, body) {
       if (!error && response.statusCode == 200) {
@@ -75,7 +77,7 @@ exports.postChooseDesigns = (req, res) => {
   });
 
   request.post(
-    "http://localhost:8080/insertIntoInventory",
+    `${apiUrl}/insertIntoInventory`,
     {
       json: { imagePath, designer_id: req.designer._id },
     },
@@ -98,7 +100,7 @@ exports.getMyDesignsPage = (req, res) => {
   const files = fs.readdirSync(dir);
   console.log(files);
   return request.post(
-    "http://localhost:8080/designs",
+    `${apiUrl}/designs`,
     { json: { userId: req.designer._id } },
     function (error, response, body) {
       const paths = [];
@@ -134,7 +136,7 @@ exports.getAddProductPage = (req, res) => {
   const designName = req.params.designName;
 
   request.post(
-    "http://localhost:8080/getSpecificDesign",
+    `${apiUrl}/getSpecificDesign`,
     { json: { designerId: req.designer._id, designName } },
     function (error, response, body) {
       if (!error && response.statusCode == 200) {
@@ -333,7 +335,7 @@ exports.removeDesignFromInventory = (req, res) => {
   const designName = req.params.designName;
   console.log(designName);
   request.post(
-    "http://localhost:8080/removeDesignFromInventory",
+    `${apiUrl}/removeDesignFromInventory`,
     { json: { designerId: req.designer._id, designName } },
     function (error, response, body) {
       if (!error && response.statusCode == 200) {
@@ -349,7 +351,7 @@ exports.removeFromInventory = (req, res) => {
   const designName = req.params.designName;
   console.log(designName);
   request.post(
-    "http://localhost:8080/remove-from-inventory",
+    `${apiUrl}/remove-from-inventory`,
     { json: { designerId: req.designer._id, designName } },
     function (error, response, body) {
       if (!error && response.statusCode == 200) {

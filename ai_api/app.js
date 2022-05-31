@@ -26,7 +26,7 @@ app.use((req, res, next) => {
 app.use(designsRoutes);
 
 mongoConnectAPI(() => {
-  app.listen(8080).on("error", (err) => {
+  app.listen(process.env.PORT || 8080).on("error", (err) => {
     console.log(err);
   });
 });

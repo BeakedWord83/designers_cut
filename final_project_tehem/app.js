@@ -119,5 +119,5 @@ app.use(authRoutes);
 app.use('/admin', adminRoutes);
 // Configure database and start the server on port 3000
 mongoConnect(() => {
-  app.listen(process.env.PORT);
+  app.listen(process.env.PORT || 3000);
 });

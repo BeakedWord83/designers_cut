@@ -7,6 +7,7 @@ const stripe = require("stripe")(
   "sk_test_51KP3UzLEudQkZUXXnuWsJ7UnYsJvqVD9me6AJjfrnnpOwTpqRkGq0sQxnTy47F0fAB0tjpDbnIQhSTokPQxpJk6o00AtIOO8Vx"
 );
 var nodemailer = require("nodemailer");
+const apiUrl = "https://designers-cut-api.herokuapp.com";
 
 var transporter = nodemailer.createTransport({
   service: "gmail",
@@ -190,8 +191,8 @@ exports.postCheckout = async (req, res) => {
       })),
 
       mode: "payment",
-      success_url: req.protocol + "://" + "localhost:3000/success",
-      cancel_url: req.protocol + "://" + "localhost:3000/cancel",
+      success_url: req.protocol + "://" + `${apiUrl}/success`,
+      cancel_url: req.protocol + "://" + `${apiUrl}/cancel`,
     })
     .then((session) => {
       res.render("shop/checkout", {

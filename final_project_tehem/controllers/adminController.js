@@ -4,6 +4,8 @@ const productModel = require("../models/products");
 const clientModel = require("../models/clients");
 const designerModel = require("../models/designers");
 
+const apiUrl = "https://designers-cut-api.herokuapp.com";
+
 const request = require("request");
 
 // Super Admin dashboard section
@@ -18,7 +20,7 @@ exports.getAdminLoginPage = (req, res) => {
     req.session.destroy((err) => {
       if (err) {
         console.log(err);
-      } 
+      }
     });
   }
   return res.render("admin/admin-login");
@@ -81,7 +83,7 @@ exports.postManageProductsPage = (req, res) => {
       const productDesigner = product.designer;
       const imageName = product.imageName;
       request.post(
-        "http://localhost:8080/removeDesignFromInventory",
+        `${apiUrl}/removeDesignFromInventory`,
         { json: { designerId: productDesigner._id, designName: imageName } },
         function (error, response, body) {
           if (!error && response.statusCode == 200) {
@@ -166,7 +168,6 @@ exports.postManageClientsPage = (req, res) => {
     clientModel
       .deleteById(clientId)
       .then((result) => {
-
         res.redirect("/admin/manage-clients");
       })
       .catch((err) => console.log(err));
@@ -237,18 +238,16 @@ exports.postManageDesignersPage = (req, res) => {
       .then((result) => {
         productModel.deleteByDesignerId(designerId);
         request.post(
-          "http://localhost:8080/deleteInventory",
-          { json: { designerId: designerId} },
+          `${apiUrl}/deleteInventory`,
+          { json: { designerId: designerId } },
           function (error, response, body) {
             if (!error && response.statusCode == 200) {
               console.log("success!");
               console.log(body);
-             return res.redirect("/admin/manage-designers");
+              return res.redirect("/admin/manage-designers");
             }
           }
         );
-
-      
       })
       .catch((err) => console.log(err));
   } else if (action === "edit") {

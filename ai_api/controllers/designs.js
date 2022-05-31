@@ -43,12 +43,13 @@ exports.postUseAI = (req, res, next) => {
         "Content-Type": "multipart/form-data",
         connection: "keep-alive",
       },
-      url: "http://localhost:8000/predict",
+      url: "https://tomer.maximilianvh.com/predict",
       method: "POST",
       formData: form,
     },
     function (error, response, body) {
       if (!error) {
+        console.log(body);
         console.log(Buffer.from(body));
         var filePath =
           "images/predictions/predicted-" + Math.random() * 0.1 + ".png";
