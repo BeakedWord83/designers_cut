@@ -4,7 +4,8 @@ const request = require("request");
 const fs = require("fs");
 const path = require("path");
 
-const apiUrl = "https://designers-cut-api.herokuapp.com"
+// const apiUrl = "https://designers-cut-api.herokuapp.com"
+const apiUrl = "http://localhost:8080";
 
 exports.getDesignerDashboardPage = (req, res) => {
   res.render("designer/designer-dashboard", {
@@ -33,27 +34,26 @@ exports.postDesignPage = (req, res) => {
       if (!error && response.statusCode == 200) {
         console.log("testing", body);
         const design = body.data;
-        const system_path =
-          "C:\\Users\\user\\Desktop\\folders\\web_project_tehem\\final_project_tehem\\public\\images\\";
+        const system_path = path.join(__dirname, "..", "/public/images/");
         const filename =
           Date.now() +
           Math.floor(Math.random() * 10) +
           "-" +
           design.originalname;
-        let path = system_path + filename;
-        fs.writeFileSync(path, Buffer.from(design.body), (err) => {
+        let pathFile = system_path + filename;
+        fs.writeFileSync(pathFile, Buffer.from(design.body), (err) => {
           if (err) throw err;
           console.log("The file has been saved!");
         });
-        path = {
-          imagePath: "images\\" + filename,
+        pathFile = {
+          imagePath: "images/" + filename,
           originalname: design.originalname,
         };
 
-        req.session.path = path;
+        req.session.path = pathFile;
 
         res.render("temporary-designs", {
-          design: path.imagePath,
+          design: pathFile.imagePath,
         });
       }
     }
@@ -67,10 +67,10 @@ exports.postChooseDesigns = (req, res) => {
 
   console.log(req.body);
   const options = { ...req.body };
-  image = fs.readFileSync("public\\" + options.design);
-  fs.unlinkSync("public\\" + options.design);
+  image = fs.readFileSync("public/" + options.design);
+  fs.unlinkSync("public/" + options.design);
 
-  let imagePath = `public\\images\\stored\\stored-${Math.random() * 0.1}.png`;
+  let imagePath = `public/images/stored/stored-${Math.random() * 0.1}.png`;
   fs.writeFileSync(imagePath, image, (err) => {
     if (err) throw err;
     console.log("The file has been saved!");
@@ -110,7 +110,7 @@ exports.getMyDesignsPage = (req, res) => {
         body.inventory.designs.forEach((design) => {
           const exists = files.includes(
             design.imagePath
-              .replace("images\\stored\\", "")
+              .replace("images/stored/", "")
               .replace(".png", "-product.png")
           );
           console.log(exists);
@@ -145,7 +145,7 @@ exports.getAddProductPage = (req, res) => {
         const designName = body.design.imageName.replace(".png", "");
         console.log(designName);
         const design = {
-          designUrl: "\\" + body.design.imagePath,
+          designUrl: "/" + body.design.imagePath,
           designName: designName,
         };
         console.log(design);
@@ -243,7 +243,7 @@ exports.postEditProfilePage = (req, res) => {
 
   Designer.fetchByUsername(newUsername)
     .then((designer) => {
-      if (designer) {
+      if (designer && designer.username != req.designer.username) {
         req.flash("error", "Username already taken");
         return res.redirect("/profile-edit/" + designerUsername);
       } else {
@@ -300,7 +300,7 @@ console.log(image);
       
     });
 
-    imagePath = "\\images\\profile-pictures\\" + filename;
+    imagePath = "/images/profile-pictures/" + filename;
     const designer = req.designer;
     designer.imageUrl = imagePath;
     designer.saveDesigner().then((result) => {
@@ -365,7 +365,7 @@ exports.removeFromInventory = (req, res) => {
 
 exports.removeFromSale = (req, res) => {
   console.log("here");
-  const imagePath = path.join(__dirname, "..", "public", "images", "stored\\");
+  const imagePath = path.join(__dirname, "..", "public", "images", "stored/");
   const designName = req.params.designName;
   const productDesignName = designName + "-product.png";
   console.log(imagePath + productDesignName);

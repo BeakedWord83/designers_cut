@@ -4,7 +4,8 @@ const productModel = require("../models/products");
 const clientModel = require("../models/clients");
 const designerModel = require("../models/designers");
 
-const apiUrl = "https://designers-cut-api.herokuapp.com";
+// const apiUrl = "https://designers-cut-api.herokuapp.com";
+const apiUrl = "http://localhost:8080";
 
 const request = require("request");
 

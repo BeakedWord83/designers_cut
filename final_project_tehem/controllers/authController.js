@@ -128,7 +128,7 @@ exports.postDesignerRegister = (req, res) => {
         return res.redirect("/designer-login");
       }
       // Preprocessing the user's profile picture and adding it to the file system
-      let imagePath = "\\images\\default.jpg"; // default
+      let imagePath = "/images/default.jpg"; // default
       let image = req.file;
 
       if (image) {
@@ -148,7 +148,7 @@ exports.postDesignerRegister = (req, res) => {
           console.log("The file has been saved!");
         });
 
-        imagePath = "\\images\\profile-pictures\\" + filename;
+        imagePath = "/images/profile-pictures/" + filename;
       }
       // Creating the new designer
       const id = null;

@@ -3,6 +3,7 @@ const Design = require("../models/designs");
 const fs = require("fs");
 const request = require("request");
 const querystring = require("querystring");
+const path = require("path");
 
 exports.getDesignsInventory = (req, res, next) => {
   const userId = req.body.userId;
@@ -23,10 +24,12 @@ exports.getDesignsInventory = (req, res, next) => {
 
 exports.postUseAI = (req, res, next) => {
   let binary = Buffer.from(req.body.image.data);
-  let filePath = "images/temp/temp-" + Math.random() * 0.1 + ".png";
+  console.log(req.body.image);
+  let filePath = path.join(__dirname, "..", "images/temp/temp-"+(Math.random()*0.1).toString()+".png");
   fs.writeFileSync(filePath, binary, (err) => {
     if (err) {
       console.log(err);
+      return;
     }
   });
 
@@ -43,7 +46,8 @@ exports.postUseAI = (req, res, next) => {
         "Content-Type": "multipart/form-data",
         connection: "keep-alive",
       },
-      url: "https://tomer.maximilianvh.com/predict",
+      // url: "https://tomer.maximilianvh.com/predict",
+      url: "http://localhost:8000/predict",
       method: "POST",
       formData: form,
     },
@@ -51,8 +55,8 @@ exports.postUseAI = (req, res, next) => {
       if (!error) {
         console.log(body);
         console.log(Buffer.from(body));
-        var filePath =
-          "images/predictions/predicted-" + Math.random() * 0.1 + ".png";
+        var filePath = path.join(__dirname, "..", "images/predictions/predicted-"+(Math.random()*0.1).toString()+".png");
+          
         body = Buffer.from(body, "base64");
         fs.writeFileSync(filePath, body, (err) => {
           if (err) {
@@ -81,8 +85,8 @@ exports.postInsertIntoInventory = (req, res, next) => {
   console.log("WE'RE HERE LOL!");
   console.log(req.body);
   const userId = req.body.designer_id;
-  const imagePath = req.body.imagePath.replace("public\\", "");
-  let imageName = imagePath.replace("images\\stored\\", "");
+  const imagePath = req.body.imagePath.replace("public/", "");
+  let imageName = imagePath.replace("images/stored/", "");
   imageName = imageName.replace(".png", "");
   let design = new Design(imagePath, imageName);
 
