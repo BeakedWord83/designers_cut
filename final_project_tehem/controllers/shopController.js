@@ -3,20 +3,6 @@ const path = require("path");
 const Client = require("../models/clients");
 const Product = require("../models/products");
 const Designer = require("../models/designers");
-const stripe = require("stripe")(
-  "sk_test_51KP3UzLEudQkZUXXnuWsJ7UnYsJvqVD9me6AJjfrnnpOwTpqRkGq0sQxnTy47F0fAB0tjpDbnIQhSTokPQxpJk6o00AtIOO8Vx"
-);
-var nodemailer = require("nodemailer");
-// const apiUrl = "https://designers-cut-api.herokuapp.com";
-const apiUrl = "http://localhost:8080";
-
-var transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: "designerscut22@gmail.com",
-    pass: "designerscut22Kk;",
-  },
-});
 
 // <-------------------- Main page -------------------->
 exports.getIndexPage = (req, res) => {
@@ -96,7 +82,6 @@ exports.postAddToCart = (req, res, next) => {
       console.log(product);
       console.log("testing ", req.client.cart);
       const client = req.client;
-      console.log("WTF " + client);
       client.cart.push(product);
       client.saveClient();
       return res.redirect("/cart");
