@@ -12,9 +12,6 @@ const multer = require("multer");
 const Client = require("./models/clients");
 const Designer = require("./models/designers");
 
-const MONGODB_URI =
-  "mongodb+srv://katriel_b:QfagA8HYAso1Ccr2@cluster0.mf9sk.mongodb.net/Designers?retryWrites=true&w=majority";
-
 const app = express();
 const store = new MongoDBStore({
   uri: MONGODB_URI,
