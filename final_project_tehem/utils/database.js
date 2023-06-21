@@ -2,7 +2,6 @@ const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 
 // Create a mongodb connection
-const MONGODB_URI = 'mongodb+srv://katriel_b:QfagA8HYAso1Ccr2@cluster0.mf9sk.mongodb.net/Designers?retryWrites=true&w=majority';
 let _db;
 const mongoConnect = (callback) => {
     MongoClient.connect(MONGODB_URI)
