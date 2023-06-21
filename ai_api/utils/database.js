@@ -3,7 +3,6 @@ const MongoClient = mongodb.MongoClient;
 
 const mongoConnectAPI = (callback) => {
   MongoClient.connect(
-    "mongodb+srv://katriel_b:QfagA8HYAso1Ccr2@cluster0.mf9sk.mongodb.net/Designers_api?retryWrites=true&w=majority"
   )
     .then((client) => {
       console.log("API connected to mongodb!");
